@@ -114,6 +114,8 @@ export default {
                 amount: ''                
             },
             daily_sales: [],
+            monthly_sales: [],
+            yearly_sales: [],
             Days: [],
             Prices: [],
         }
@@ -135,36 +137,44 @@ export default {
                 this.sales = res.sales;
                 this.expenses = res.expenses;
                 this.daily_sales = res.daily_sales;
+                this.monthly_sales = res.monthly_sales;
+                this.yearly_sales = res.yearly_sales;
                 let temp_container = [];
                 let days_container = [];
                 let arr_data = [];
                 let year = moment().year();
 
-                this.sales.forEach(element => {
-                  temp_container.push(moment(String(element.created_at)).format('D'));
-                  this.Prices.push(element.amount);
-                });
                 this.daily_sales.forEach(element => {
-                  console.log(element)
-                  temp_container.push(moment(String(element.created_at)).format('D'));
+                  this.Days.push(element.sales_day);
+                  this.Prices.push(element.total_sales);
                 });
-                //days_container = new Set(temp_container);
-                //this.Days = Array.from(days_container)
+
+                this.monthly_sales.forEach(element => {
+                  
+                });
+
+                this.yearly_sales.forEach(element => {
+                  
+                });
                 
                 arr_data = {
                    'prices' : this.Prices, 
                    'days' : this.Days, 
                    'year' : year
                 };
-                //console.log(arr_data['prices'])
-                //this.drawChart(arr_data); //add input variables for day labels, month and amount 
+                //set onload as daily sales for current month
+                this.setData(arr_data); //add input variables for day labels, month and amount 
             })
+        },
+        setData(data){
+          //daily || monthly || yearly
+          this.drawChart(data);
         },
         drawChart(arr_data){
           new Chart(this.$refs.myChart, {
             type: 'line',
             data: {
-              labels: arr_data['daily_sales'],
+              labels: arr_data['days'],
               datasets: [
                 {
                   label: arr_data['year'] + ' Sales',

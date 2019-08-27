@@ -1955,6 +1955,8 @@ __webpack_require__.r(__webpack_exports__);
         amount: ''
       },
       daily_sales: [],
+      monthly_sales: [],
+      yearly_sales: [],
       Days: [],
       Prices: []
     };
@@ -1974,37 +1976,42 @@ __webpack_require__.r(__webpack_exports__);
         _this.sales = res.sales;
         _this.expenses = res.expenses;
         _this.daily_sales = res.daily_sales;
+        _this.monthly_sales = res.monthly_sales;
+        _this.yearly_sales = res.yearly_sales;
         var temp_container = [];
         var days_container = [];
         var arr_data = [];
         var year = moment__WEBPACK_IMPORTED_MODULE_0___default()().year();
 
-        _this.sales.forEach(function (element) {
-          temp_container.push(moment__WEBPACK_IMPORTED_MODULE_0___default()(String(element.created_at)).format('D'));
+        _this.daily_sales.forEach(function (element) {
+          _this.Days.push(element.sales_day);
 
-          _this.Prices.push(element.amount);
+          _this.Prices.push(element.total_sales);
         });
 
-        _this.daily_sales.forEach(function (element) {
-          console.log(element);
-          temp_container.push(moment__WEBPACK_IMPORTED_MODULE_0___default()(String(element.created_at)).format('D'));
-        }); //days_container = new Set(temp_container);
-        //this.Days = Array.from(days_container)
+        _this.monthly_sales.forEach(function (element) {});
 
+        _this.yearly_sales.forEach(function (element) {});
 
         arr_data = {
           'prices': _this.Prices,
           'days': _this.Days,
           'year': year
-        }; //console.log(arr_data['prices'])
-        //this.drawChart(arr_data); //add input variables for day labels, month and amount 
+        }; //set onload as daily sales for current month
+
+        _this.setData(arr_data); //add input variables for day labels, month and amount 
+
       });
+    },
+    setData: function setData(data) {
+      //daily || monthly || yearly
+      this.drawChart(data);
     },
     drawChart: function drawChart(arr_data) {
       new Chart(this.$refs.myChart, {
         type: 'line',
         data: {
-          labels: arr_data['daily_sales'],
+          labels: arr_data['days'],
           datasets: [{
             label: arr_data['year'] + ' Sales',
             data: arr_data['prices'],
