@@ -94,8 +94,18 @@ class SaleController extends Controller
     public function businessSales($id)
     {
         $sales = Sale::businessSales($id)->get();
+        $daily_sales = Sale::businessDailySales($id)->get();
+        $monthly_sales = Sale::businessMonthlySales($id)->get();
+        $yearly_sales = Sale::businessYearlySales($id)->get();
         
-        return SaleResource::collection($sales);
+        $response = array(
+            'sales' => SaleResource::collection($sales),
+            'yearly' => $yearly_sales,
+            'monthly' => $monthly_sales,
+            'daily' => $daily_sales,
+        );
+        // return SaleResource::collection($sales);
+        return $response;
     }
 
     /**

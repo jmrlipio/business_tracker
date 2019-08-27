@@ -50,8 +50,7 @@ class Sale extends Model
         SUM(amount) as TotalSales'))
             ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at), DAY(created_at)'))
             ->orderBy(DB::raw('YEAR(created_at), MONTH(created_at), DAY(created_at)'))
-            ->where('business_id',$id)
-            ->get();
+            ->where('business_id',$id);
     }
 
     public function scopeBusinessMonthlySales($query, $id)
@@ -60,8 +59,7 @@ class Sale extends Model
         SUM(amount) as TotalSales'))
             ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
             ->orderBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
-            ->where('business_id',$id)
-            ->get();
+            ->where('business_id',$id);
     }
 
     public function scopeBusinessYearlySales($query, $id)
@@ -69,8 +67,7 @@ class Sale extends Model
         return $query->select(DB::raw('YEAR(created_at) as SalesYear, SUM(amount) as TotalSales'))
             ->groupBy(DB::raw('YEAR(created_at)'))
             ->orderBy(DB::raw('YEAR(created_at)'))
-            ->where('business_id',$id)
-            ->get();
+            ->where('business_id',$id);
     }
 
     public function scopeBusinessSales($query, $id)
