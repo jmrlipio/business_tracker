@@ -18,7 +18,59 @@ class Sale extends Model
 
     public function scopeDailySales($query)
     {
-        return $query->sum('amount');
+        return $query->select(DB::raw('YEAR(created_at) as SalesYear, 
+        MONTH(created_at) as SalesMonth, DAY(created_at) as SalesDay,
+        SUM(amount) as TotalSales'))
+            ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at), DAY(created_at)'))
+            ->orderBy(DB::raw('YEAR(created_at), MONTH(created_at), DAY(created_at)'))
+            ->get();
+    }
+
+    public function scopeMonthlySales($query)
+    {
+        return $query->select(DB::raw('YEAR(created_at) as SalesYear, MONTH(created_at) as SalesMonth,
+        SUM(amount) as TotalSales'))
+            ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
+            ->orderBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
+            ->get();
+    }
+
+    public function scopeYearlySales($query)
+    {
+        return $query->select(DB::raw('YEAR(created_at) as SalesYear, SUM(amount) as TotalSales'))
+            ->groupBy(DB::raw('YEAR(created_at)'))
+            ->orderBy(DB::raw('YEAR(created_at)'))
+            ->get();
+    }
+
+    public function scopeBusinessDailySales($query, $id)
+    {
+        return $query->select(DB::raw('YEAR(created_at) as SalesYear, 
+        MONTH(created_at) as SalesMonth, DAY(created_at) as SalesDay,
+        SUM(amount) as TotalSales'))
+            ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at), DAY(created_at)'))
+            ->orderBy(DB::raw('YEAR(created_at), MONTH(created_at), DAY(created_at)'))
+            ->where('business_id',$id)
+            ->get();
+    }
+
+    public function scopeBusinessMonthlySales($query, $id)
+    {
+        return $query->select(DB::raw('YEAR(created_at) as SalesYear, MONTH(created_at) as SalesMonth,
+        SUM(amount) as TotalSales'))
+            ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
+            ->orderBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
+            ->where('business_id',$id)
+            ->get();
+    }
+
+    public function scopeBusinessYearlySales($query, $id)
+    {
+        return $query->select(DB::raw('YEAR(created_at) as SalesYear, SUM(amount) as TotalSales'))
+            ->groupBy(DB::raw('YEAR(created_at)'))
+            ->orderBy(DB::raw('YEAR(created_at)'))
+            ->where('business_id',$id)
+            ->get();
     }
 
     public function scopeBusinessSales($query, $id)

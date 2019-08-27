@@ -25,16 +25,25 @@ class SaleController extends Controller
         $business = Business::business()->get();
         $sales = Sale::sales()->get();
         $expenses = Expense::businessExpenses()->get();
-        //$daily_sales = Sale::dailySales();
+        $daily_sales = Sale::dailySales();
+        $monthly_sales = Sale::monthlySales();
+        $yearly_sales = Sale::yearlySales();
         
         $data = array(
-            //'daily_sales' => SaleResource::collection($daily_sales),
+            'daily_sales' => SaleResource::collection($daily_sales),
+            'monthly_sales' => SaleResource::collection($monthly_sales),
+            'yearly_sales' => SaleResource::collection($yearly_sales),
             'sales' => SaleResource::collection($sales),
             'expenses' => ExpenseResource::collection($expenses),
             'business' => BusinessResource::collection($business)
         );
 
-        $test = Sale::sum('amount');
+        $test = array(
+            'yearly' => $yearly_sales,
+            'monthly' => $monthly_sales,
+            'daily' => $daily_sales,
+        );
+
         return $data;
     }
 
