@@ -38,12 +38,6 @@ class SaleController extends Controller
             'business' => BusinessResource::collection($business)
         );
 
-        $test = array(
-            'yearly' => $yearly_sales,
-            'monthly' => $monthly_sales,
-            'daily' => $daily_sales,
-        );
-
         return $data;
     }
 

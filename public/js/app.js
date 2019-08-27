@@ -1954,6 +1954,7 @@ __webpack_require__.r(__webpack_exports__);
         quantity: '',
         amount: ''
       },
+      daily_sales: [],
       Days: [],
       Prices: []
     };
@@ -1972,6 +1973,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (res) {
         _this.sales = res.sales;
         _this.expenses = res.expenses;
+        _this.daily_sales = res.daily_sales;
         var temp_container = [];
         var days_container = [];
         var arr_data = [];
@@ -1983,24 +1985,26 @@ __webpack_require__.r(__webpack_exports__);
           _this.Prices.push(element.amount);
         });
 
-        days_container = new Set(temp_container);
-        _this.Days = Array.from(days_container);
+        _this.daily_sales.forEach(function (element) {
+          console.log(element);
+          temp_container.push(moment__WEBPACK_IMPORTED_MODULE_0___default()(String(element.created_at)).format('D'));
+        }); //days_container = new Set(temp_container);
+        //this.Days = Array.from(days_container)
+
+
         arr_data = {
           'prices': _this.Prices,
           'days': _this.Days,
           'year': year
-        };
-        console.log(arr_data['prices']);
-
-        _this.drawChart(arr_data); //add input variables for day labels, month and amount 
-
+        }; //console.log(arr_data['prices'])
+        //this.drawChart(arr_data); //add input variables for day labels, month and amount 
       });
     },
     drawChart: function drawChart(arr_data) {
       new Chart(this.$refs.myChart, {
         type: 'line',
         data: {
-          labels: arr_data['days'],
+          labels: arr_data['daily_sales'],
           datasets: [{
             label: arr_data['year'] + ' Sales',
             data: arr_data['prices'],

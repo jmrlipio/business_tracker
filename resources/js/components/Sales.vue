@@ -113,6 +113,7 @@ export default {
                 quantity: '',
                 amount: ''                
             },
+            daily_sales: [],
             Days: [],
             Prices: [],
         }
@@ -133,6 +134,7 @@ export default {
             .then(res => {
                 this.sales = res.sales;
                 this.expenses = res.expenses;
+                this.daily_sales = res.daily_sales;
                 let temp_container = [];
                 let days_container = [];
                 let arr_data = [];
@@ -142,23 +144,27 @@ export default {
                   temp_container.push(moment(String(element.created_at)).format('D'));
                   this.Prices.push(element.amount);
                 });
-                days_container = new Set(temp_container);
-                this.Days = Array.from(days_container)
+                this.daily_sales.forEach(element => {
+                  console.log(element)
+                  temp_container.push(moment(String(element.created_at)).format('D'));
+                });
+                //days_container = new Set(temp_container);
+                //this.Days = Array.from(days_container)
                 
                 arr_data = {
                    'prices' : this.Prices, 
                    'days' : this.Days, 
                    'year' : year
                 };
-                console.log(arr_data['prices'])
-                this.drawChart(arr_data); //add input variables for day labels, month and amount 
+                //console.log(arr_data['prices'])
+                //this.drawChart(arr_data); //add input variables for day labels, month and amount 
             })
         },
         drawChart(arr_data){
           new Chart(this.$refs.myChart, {
             type: 'line',
             data: {
-              labels: arr_data['days'],
+              labels: arr_data['daily_sales'],
               datasets: [
                 {
                   label: arr_data['year'] + ' Sales',
