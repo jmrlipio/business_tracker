@@ -159,7 +159,7 @@ export default {
                 
                 arr_data = {
                    'prices' : this.Prices, 
-                   'days' : this.Days, 
+                   'length' : this.Days, 
                    'year' : year
                 };
                 //set onload as daily sales for current month
@@ -174,7 +174,7 @@ export default {
           new Chart(this.$refs.myChart, {
             type: 'line',
             data: {
-              labels: arr_data['days'],
+              labels: arr_data['length'],
               datasets: [
                 {
                   label: arr_data['year'] + ' Sales',

@@ -1995,7 +1995,7 @@ __webpack_require__.r(__webpack_exports__);
 
         arr_data = {
           'prices': _this.Prices,
-          'days': _this.Days,
+          'length': _this.Days,
           'year': year
         }; //set onload as daily sales for current month
 
@@ -2011,7 +2011,7 @@ __webpack_require__.r(__webpack_exports__);
       new Chart(this.$refs.myChart, {
         type: 'line',
         data: {
-          labels: arr_data['days'],
+          labels: arr_data['length'],
           datasets: [{
             label: arr_data['year'] + ' Sales',
             data: arr_data['prices'],
