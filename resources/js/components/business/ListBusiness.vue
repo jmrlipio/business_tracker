@@ -12,6 +12,7 @@
                 </div>
                 <button type="submit" class="btn btn-light btn-block">Save</button>
             </form>
+           
             <div class="col-lg-12 col-xs-6">
                 <div class="card card-body mb-2" v-for="business in businesses" v-bind:key="business.id">
                     <h3>{{ business.name }}</h3>
