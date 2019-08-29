@@ -1926,6 +1926,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1968,6 +1970,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (res) {
         _this.sales = res.sales;
         _this.expenses = res.expenses;
+        _this.businesses = res.business;
         _this.daily_sales = res.daily_sales;
         _this.monthly_sales = res.monthly_sales;
         _this.yearly_sales = res.yearly_sales;
@@ -69868,22 +69871,28 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("section", { staticClass: "content" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-lg-12 col-xs-6" }, [
-          _c("h2", [_vm._v("This is for listing sales")])
-        ])
-      ])
+  return _c("section", { staticClass: "content" }, [
+    _c("div", { staticClass: "row" }, [
+      _c(
+        "div",
+        { staticClass: "col-lg-12 col-xs-6" },
+        _vm._l(_vm.businesses, function(business) {
+          return _c(
+            "div",
+            { key: business.id, staticClass: "card card-body mb-2" },
+            [
+              _c("h3", [_vm._v(_vm._s(business.name))]),
+              _vm._v(" "),
+              _c("p", [_vm._v(_vm._s(business.name))])
+            ]
+          )
+        }),
+        0
+      )
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 

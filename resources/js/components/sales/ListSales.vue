@@ -2,8 +2,10 @@
     <section class="content">
         <div class="row">
             <div class="col-lg-12 col-xs-6">
-                <h2>This is for listing sales</h2>
-                
+                <div class="card card-body mb-2" v-for="business in businesses" v-bind:key="business.id">
+                    <h3>{{ business.name }}</h3>
+                    <p>{{ business.name }}</p>
+                </div>
             </div>
         </div>
     </section>
@@ -51,11 +53,12 @@ export default {
             .then(res => {
                 this.sales = res.sales;
                 this.expenses = res.expenses;
+                this.businesses = res.business;
                 this.daily_sales = res.daily_sales;
                 this.monthly_sales = res.monthly_sales;
                 this.yearly_sales = res.yearly_sales;
                 let arr_data = [];
-
+                
                 this.daily_sales.forEach(element => {
                   this.Days.push(element.sales_day);
                   this.Prices.push(element.total_sales);
