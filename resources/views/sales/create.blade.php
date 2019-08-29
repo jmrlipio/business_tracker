@@ -4,11 +4,11 @@
 @section('name', 'csrf-token')
 
 @section('content_header')
-    <h1>Dashboard</h1>    
+    <h1>Create Sales</h1>    
 @stop
 
 @section('content')
     <div id="app">
-        <sales></sales>
+        <create_sales></create_sales>
     </div>
 @stop

@@ -108,17 +108,23 @@ return [
     */
 
     'menu' => [
-        'MAIN NAVIGATION',
+        'SALES',
         [
             'text' => 'Blog',
             'url'  => 'admin/blog',
             'can'  => 'manage-blog',
         ],
         [
-            'text'        => 'Pages',
-            'url'         => 'admin/pages',
+            'text'        => 'List',
+            'url'         => 'sales',
             'icon'        => 'file',
-            'label'       => 5,
+            'label_color' => 'success',
+        ],
+        [
+            'text'        => 'Create',
+            'url'         => 'sales/create',
+            'icon'        => 'file',
+            //'label'       => 5,
             'label_color' => 'success',
         ],
         'ACCOUNT SETTINGS',
