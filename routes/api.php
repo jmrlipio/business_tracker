@@ -36,4 +36,5 @@ Route::delete('sale/{id}', 'SaleController@destroy');
 
 
 // List business sales
+Route::get('business', 'BusinessController@list');
 Route::get('business/{id}/sales', 'SaleController@businessSales');

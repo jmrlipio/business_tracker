@@ -108,6 +108,18 @@ return [
     */
 
     'menu' => [
+        'BUSINESSES',
+        [
+            'text' => 'Business',
+            'url'  => 'business',
+            'can'  => 'manage-business',
+        ],
+        [
+            'text'        => 'List',
+            'url'         => 'business',
+            'icon'        => 'file',
+            'label_color' => 'success',
+        ],
         'SALES',
         [
             'text' => 'Blog',

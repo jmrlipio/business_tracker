@@ -25,6 +25,8 @@ Vue.component('sales', require('./components/sales/Sales.vue').default);
 Vue.component('create_sales', require('./components/sales/CreateSales.vue').default);
 Vue.component('list_sales', require('./components/sales/ListSales.vue').default);
 
+Vue.component('list_business', require('./components/business/ListBusiness.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

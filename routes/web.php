@@ -22,3 +22,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/sales/create', 'SaleController@create');
 Route::get('/sales', 'SaleController@list');
+
+
+Route::get('/business', 'BusinessController@index');

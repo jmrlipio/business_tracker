@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Business;
+use App\Http\Resources\Business as BusinessResource;
 
 class BusinessController extends Controller
 {
@@ -13,7 +15,14 @@ class BusinessController extends Controller
      */
     public function index()
     {
-        //
+        return view('business.index');
+    }
+
+    public function list()
+    {
+        $business = Business::business()->get();
+
+        return BusinessResource::collection($business);
     }
 
     /**
