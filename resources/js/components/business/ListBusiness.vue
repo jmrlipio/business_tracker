@@ -3,11 +3,11 @@
         <div class="row">
             <form @submit.prevent="addBusiness">
                 <div class="form-group">
-                    <input type="text" class="form-control" 
+                    <input required type="text" class="form-control" 
                     placeholder="Business name" v-model="business.name">
                 </div>
                 <div class="form-group">
-                    <textarea type="text" class="form-control" 
+                    <textarea required type="text" class="form-control" 
                     placeholder="Business description" v-model="business.description"></textarea>
                 </div>
                 <button type="submit" class="btn btn-light btn-block">Save</button>

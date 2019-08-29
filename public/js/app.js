@@ -69993,7 +69993,11 @@ var render = function() {
                 }
               ],
               staticClass: "form-control",
-              attrs: { type: "text", placeholder: "Business name" },
+              attrs: {
+                required: "",
+                type: "text",
+                placeholder: "Business name"
+              },
               domProps: { value: _vm.business.name },
               on: {
                 input: function($event) {
@@ -70017,7 +70021,11 @@ var render = function() {
                 }
               ],
               staticClass: "form-control",
-              attrs: { type: "text", placeholder: "Business description" },
+              attrs: {
+                required: "",
+                type: "text",
+                placeholder: "Business description"
+              },
               domProps: { value: _vm.business.description },
               on: {
                 input: function($event) {
