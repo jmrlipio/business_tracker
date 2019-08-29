@@ -70,7 +70,7 @@ class SaleController extends Controller
     public function store(Request $request)
     {
         //
-        $sale = $request->isMethod('put') ? Sale::findOrFail ($request->sale_id->sale_id) : new Sale;
+        $sale = $request->isMethod('put') ? Sale::findOrFail ($request->sale_id) : new Sale;
 
         $sale->id = $request->input('sale_id');
         $sale->business_id = $request->input('business_id');
@@ -149,5 +149,12 @@ class SaleController extends Controller
         {
             return new SaleResource($sale);
         }        
+    }
+    
+    public function dailySales()
+    {
+        $daily_sales = Sale::dailySales();
+        
+        return $daily_sales;
     }
 }

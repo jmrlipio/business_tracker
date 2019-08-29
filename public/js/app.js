@@ -2051,6 +2051,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -2063,6 +2065,44 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2073,49 +2113,58 @@ __webpack_require__.r(__webpack_exports__);
         amount: '',
         created_at: ''
       },
-      expenses: [],
-      expense: {
-        id: '',
-        business_id: '',
-        quantity: '',
-        amount: ''
-      },
-      businesses: [],
-      business: {
-        id: '',
-        name: '',
-        description: ''
-      },
-      daily_sales: [],
-      monthly_sales: [],
-      yearly_sales: [],
-      Days: [],
-      Prices: []
+      sale_id: '',
+      edit: false,
+      businesses: []
     };
   },
   created: function created() {
     this.fetchSales();
+    this.fetchBusiness();
   },
   methods: {
     fetchSales: function fetchSales() {
-      var _this = this;
-
-      fetch('/api/sales').then(function (res) {
+      fetch('/api/sales-daily').then(function (res) {
         return res.json();
       }).then(function (res) {
-        _this.sales = res.sales;
-        _this.expenses = res.expenses;
-        _this.businesses = res.business;
-        _this.daily_sales = res.daily_sales;
-        _this.monthly_sales = res.monthly_sales;
-        _this.yearly_sales = res.yearly_sales;
-        var arr_data = [];
+        // this.sales = res.sales;
+        var _sales = []; // res.sales.forEach(element => {
+        //     //_sales.push(moment(String(element.created_at)).format('MMM DD YYYY'));
+        //     _sales.push(element)
+        // });
 
-        _this.daily_sales.forEach(function (element) {
-          _this.Days.push(element.sales_day);
+        console.log(res);
+      });
+    },
+    addSales: function addSales() {
+      var _this = this;
 
-          _this.Prices.push(element.total_sales);
-        });
+      fetch('api/sales', {
+        method: 'post',
+        body: JSON.stringify(this.sale),
+        headers: {
+          'content-type': 'application/json'
+        }
+      }).then(function (res) {
+        return res.json();
+      }).then(function (data) {
+        _this.sale.amount = '';
+        alert('Sales Added');
+
+        _this.fetchSales();
+      })["catch"](function (err) {
+        return console.log(err);
+      });
+    },
+    fetchBusiness: function fetchBusiness() {
+      var _this2 = this;
+
+      fetch('/api/business').then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this2.businesses = res.data;
+      })["catch"](function (err) {
+        return console.log(err);
       });
     }
   }
@@ -70149,22 +70198,110 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("section", { staticClass: "content" }, [
     _c("div", { staticClass: "row" }, [
-      _c(
-        "div",
-        { staticClass: "col-lg-12 col-xs-6" },
-        _vm._l(_vm.businesses, function(business) {
-          return _c(
-            "div",
-            { key: business.id, staticClass: "card card-body mb-2" },
+      _c("div", { staticClass: "col-lg-12 col-xs-6" }, [
+        _c("div", { staticClass: "col-lg-6 col-xs-3" }, [
+          _c(
+            "form",
+            {
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.addSales($event)
+                }
+              }
+            },
             [
-              _c("h3", [_vm._v(_vm._s(business.name))]),
+              _c("label", [_vm._v("Select Business")]),
               _vm._v(" "),
-              _c("p", [_vm._v(_vm._s(business.name))])
+              _c("div", { staticClass: "form-group" }, [
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.sale.business_id,
+                        expression: "sale.business_id"
+                      }
+                    ],
+                    staticClass: "custom-select form-control mb-1",
+                    attrs: { required: "" },
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.sale,
+                          "business_id",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      }
+                    }
+                  },
+                  _vm._l(_vm.businesses, function(business) {
+                    return _c(
+                      "option",
+                      { key: business.id, domProps: { value: business.id } },
+                      [
+                        _vm._v(
+                          "\n                                    " +
+                            _vm._s(business.name) +
+                            "  \n                            "
+                        )
+                      ]
+                    )
+                  }),
+                  0
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.sale.amount,
+                      expression: "sale.amount"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { required: "", type: "text", placeholder: "Amount" },
+                  domProps: { value: _vm.sale.amount },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.sale, "amount", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-light btn-block",
+                  attrs: { type: "submit" }
+                },
+                [_vm._v("Save")]
+              )
             ]
           )
-        }),
-        0
-      )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "table-responsive" })
+      ])
     ])
   ])
 }

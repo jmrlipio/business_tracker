@@ -2,16 +2,53 @@
     <section class="content">
         <div class="row">
             <div class="col-lg-12 col-xs-6">
-                <div class="card card-body mb-2" v-for="business in businesses" v-bind:key="business.id">
-                    <h3>{{ business.name }}</h3>
-                    <p>{{ business.name }}</p>
+                <div class="col-lg-6 col-xs-3">
+                    <form @submit.prevent="addSales">
+                        <label>Select Business</label>
+                        <div class="form-group">
+                            <select required class="custom-select form-control mb-1" v-model="sale.business_id">
+                                <option v-for="business in businesses" 
+                                    v-bind:key="business.id"
+                                    v-bind:value="business.id">
+                                        {{ business.name }}  
+                                </option>   
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input required type="text" class="form-control" 
+                            placeholder="Amount" v-model="sale.amount">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-light btn-block">Save</button>
+                    </form>
                 </div>
+
+                <div class="table-responsive">
+                    <!-- <table class="table"></table>
+                        <thead>
+                            <tr>
+                                <th>Business</th>
+                                <th>Amount</th>
+                                <th>Date</th>                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <tr v-for="sale in sales" v-bind:key="sale.id">
+                                    <td>{{ sale.business_id }}</td>
+
+                                    <td>{{ sale.amount }}</td>
+                                    <td>{{ sale.created_at }}</td>
+                                </tr>
+                        </tbody>
+                    </table> -->
+                </div>
+                
             </div>
         </div>
     </section>
 </template>
 <script>
-
+import moment from 'moment';
 export default {
     data(){
         return{
@@ -21,50 +58,56 @@ export default {
                 business_id: '',
                 amount: '',
                 created_at: ''
-            },
-            expenses: [],
-            expense:{
-                id: '',
-                business_id: '',
-                quantity: '',
-                amount: ''                
-            },   
+            },      
+            sale_id: '',
+            edit: false  ,
             businesses: [],
-            business:{
-                id: '',
-                name: '',
-                description: '',               
-            },         
-            daily_sales: [],
-            monthly_sales: [],
-            yearly_sales: [],
-            Days: [],
-            Prices: [],        
         }
     },
     created(){
         this.fetchSales();
+        this.fetchBusiness();
     },
 
     methods: {
         fetchSales(){
-            fetch('/api/sales')
+            fetch('/api/sales-daily')
             .then(res => res.json())
             .then(res => {
-                this.sales = res.sales;
-                this.expenses = res.expenses;
-                this.businesses = res.business;
-                this.daily_sales = res.daily_sales;
-                this.monthly_sales = res.monthly_sales;
-                this.yearly_sales = res.yearly_sales;
-                let arr_data = [];
-                
-                this.daily_sales.forEach(element => {
-                  this.Days.push(element.sales_day);
-                  this.Prices.push(element.total_sales);
-                });
+               // this.sales = res.sales;
+                let _sales = [];
 
+                // res.sales.forEach(element => {
+                //     //_sales.push(moment(String(element.created_at)).format('MMM DD YYYY'));
+                //     _sales.push(element)
+                // });
+                console.log(res)
+                
             })
+        },
+        addSales(){
+            fetch('api/sales', {
+                    method: 'post',
+                    body: JSON.stringify(this.sale),
+                    headers: {
+                        'content-type': 'application/json'
+                    }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    this.sale.amount = '';
+                    alert('Sales Added');
+                    this.fetchSales();
+                })
+                .catch(err => console.log(err))
+        },
+        fetchBusiness(){
+            fetch('/api/business')
+            .then(res => res.json())
+            .then(res => {
+                this.businesses = res.data;
+            })
+            .catch(err => console.log(err));
         },
     },
 }
