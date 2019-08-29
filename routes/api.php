@@ -38,3 +38,11 @@ Route::delete('sale/{id}', 'SaleController@destroy');
 // List business sales
 Route::get('business', 'BusinessController@list');
 Route::get('business/{id}/sales', 'SaleController@businessSales');
+
+// Create new business
+Route::post('business', 'BusinessController@store');
+
+Route::put('business', 'BusinessController@store');
+
+// Delete sale
+Route::delete('business/{id}', 'BusinessController@destroy');

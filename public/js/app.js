@@ -1851,6 +1851,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1859,7 +1873,9 @@ __webpack_require__.r(__webpack_exports__);
         id: '',
         name: '',
         description: ''
-      }
+      },
+      business_id: '',
+      edit: false
     };
   },
   created: function created() {
@@ -1873,8 +1889,74 @@ __webpack_require__.r(__webpack_exports__);
         return res.json();
       }).then(function (res) {
         _this.businesses = res.data;
-        console.log(_this.businesses);
+      })["catch"](function (err) {
+        return console.log(err);
       });
+    },
+    deleteBusiness: function deleteBusiness(id) {
+      var _this2 = this;
+
+      if (confirm('Are you Sure?')) {
+        fetch('api/business/' + id, {
+          method: 'delete'
+        }).then(function (res) {
+          return res.json();
+        }).then(function (res) {
+          alert('Business Removed');
+
+          _this2.fetchBusiness();
+        })["catch"](function (err) {
+          return console.log(err);
+        });
+      }
+    },
+    addBusiness: function addBusiness() {
+      var _this3 = this;
+
+      if (this.edit === false) {
+        fetch('api/business', {
+          method: 'post',
+          body: JSON.stringify(this.business),
+          headers: {
+            'content-type': 'application/json'
+          }
+        }).then(function (res) {
+          return res.json();
+        }).then(function (data) {
+          _this3.business.name = '';
+          _this3.business.description = '';
+          alert('Business Added');
+
+          _this3.fetchBusiness();
+        })["catch"](function (err) {
+          return console.log(err);
+        });
+      } else {
+        fetch('api/business', {
+          method: 'put',
+          body: JSON.stringify(this.business),
+          headers: {
+            'content-type': 'application/json'
+          }
+        }).then(function (res) {
+          return res.json();
+        }).then(function (data) {
+          _this3.business.name = '';
+          _this3.business.description = '';
+          alert('Business Updated');
+
+          _this3.fetchBusiness();
+        })["catch"](function (err) {
+          return console.log(err);
+        });
+      }
+    },
+    editBusiness: function editBusiness(business) {
+      this.edit = true;
+      this.business.id - business.id;
+      this.business.business_id = business.id;
+      this.business.name = business.name;
+      this.business.description = business.description;
     }
   }
 });
@@ -69889,6 +69971,76 @@ var render = function() {
   return _c("section", { staticClass: "content" }, [
     _c("div", { staticClass: "row" }, [
       _c(
+        "form",
+        {
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.addBusiness($event)
+            }
+          }
+        },
+        [
+          _c("div", { staticClass: "form-group" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.business.name,
+                  expression: "business.name"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", placeholder: "Business name" },
+              domProps: { value: _vm.business.name },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.business, "name", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.business.description,
+                  expression: "business.description"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", placeholder: "Business description" },
+              domProps: { value: _vm.business.description },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.business, "description", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-light btn-block",
+              attrs: { type: "submit" }
+            },
+            [_vm._v("Save")]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
         "div",
         { staticClass: "col-lg-12 col-xs-6" },
         _vm._l(_vm.businesses, function(business) {
@@ -69898,7 +70050,35 @@ var render = function() {
             [
               _c("h3", [_vm._v(_vm._s(business.name))]),
               _vm._v(" "),
-              _c("p", [_vm._v(_vm._s(business.name))])
+              _c("p", [_vm._v(_vm._s(business.description))]),
+              _vm._v(" "),
+              _c("hr"),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-warning",
+                  on: {
+                    click: function($event) {
+                      return _vm.editBusiness(business)
+                    }
+                  }
+                },
+                [_vm._v("Edit")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-danger",
+                  on: {
+                    click: function($event) {
+                      return _vm.deleteBusiness(business.id)
+                    }
+                  }
+                },
+                [_vm._v("Delete")]
+              )
             ]
           )
         }),

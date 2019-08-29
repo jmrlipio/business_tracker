@@ -43,7 +43,16 @@ class BusinessController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $business = $request->isMethod('put') ? Business::findOrFail ($request->business_id) : new Business;
+
+        $business->id = $request->input('business_id');
+        $business->name = $request->input('name');
+        $business->description = $request->input('description');
+
+        if($business->save()) 
+        {
+            return new BusinessResource($business);
+        }
     }
 
     /**
@@ -88,6 +97,11 @@ class BusinessController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $business = Business::findOrFail($id);
+
+        if($business->delete())
+        {
+            return new BusinessResource($business);
+        }        
     }
 }
