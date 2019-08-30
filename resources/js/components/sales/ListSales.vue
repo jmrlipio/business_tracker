@@ -6,10 +6,11 @@
                     <form @submit.prevent="addSales">
                         <label>Select Business</label>
                         <div class="form-group">
-                            <select required class="custom-select form-control mb-1" v-model="sale.business_id">
+                            <select required class="custom-select form-control mb-1" v-model="selectedBusiness">
                                 <option v-for="business in businesses" 
                                     v-bind:key="business.id"
-                                    v-bind:value="business.id">
+                                    v-bind:value="business.id"
+                                    :selected="selectedBusiness === business.id">
                                         {{ business.name }}  
                                 </option>   
                             </select>
@@ -62,6 +63,7 @@ export default {
             sale_id: '',
             edit: false  ,
             businesses: [],
+            selectedBusiness: "1"
         }
     },
     created(){

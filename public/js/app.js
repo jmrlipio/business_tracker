@@ -2102,6 +2102,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2115,7 +2116,8 @@ __webpack_require__.r(__webpack_exports__);
       },
       sale_id: '',
       edit: false,
-      businesses: []
+      businesses: [],
+      selectedBusiness: "1"
     };
   },
   created: function created() {
@@ -70221,8 +70223,8 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.sale.business_id,
-                        expression: "sale.business_id"
+                        value: _vm.selectedBusiness,
+                        expression: "selectedBusiness"
                       }
                     ],
                     staticClass: "custom-select form-control mb-1",
@@ -70237,20 +70239,22 @@ var render = function() {
                             var val = "_value" in o ? o._value : o.value
                             return val
                           })
-                        _vm.$set(
-                          _vm.sale,
-                          "business_id",
-                          $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        )
+                        _vm.selectedBusiness = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
                       }
                     }
                   },
                   _vm._l(_vm.businesses, function(business) {
                     return _c(
                       "option",
-                      { key: business.id, domProps: { value: business.id } },
+                      {
+                        key: business.id,
+                        domProps: {
+                          value: business.id,
+                          selected: _vm.selectedBusiness === business.id
+                        }
+                      },
                       [
                         _vm._v(
                           "\n                                    " +
