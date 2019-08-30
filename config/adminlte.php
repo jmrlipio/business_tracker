@@ -108,17 +108,35 @@ return [
     */
 
     'menu' => [
-        'MAIN NAVIGATION',
+        'BUSINESSES',
+        [
+            'text' => 'Business',
+            'url'  => 'business',
+            'can'  => 'manage-business',
+        ],
+        [
+            'text'        => 'List',
+            'url'         => 'business',
+            'icon'        => 'file',
+            'label_color' => 'success',
+        ],
+        'SALES',
         [
             'text' => 'Blog',
             'url'  => 'admin/blog',
             'can'  => 'manage-blog',
         ],
         [
-            'text'        => 'Pages',
-            'url'         => 'admin/pages',
+            'text'        => 'List',
+            'url'         => 'sales',
             'icon'        => 'file',
-            'label'       => 5,
+            'label_color' => 'success',
+        ],
+        [
+            'text'        => 'Create',
+            'url'         => 'sales/create',
+            'icon'        => 'file',
+            //'label'       => 5,
             'label_color' => 'success',
         ],
         'ACCOUNT SETTINGS',

@@ -25,17 +25,30 @@ class SaleController extends Controller
         $business = Business::business()->get();
         $sales = Sale::sales()->get();
         $expenses = Expense::businessExpenses()->get();
-        //$daily_sales = Sale::dailySales();
+        $daily_sales = Sale::dailySales();
+        $monthly_sales = Sale::monthlySales();
+        $yearly_sales = Sale::yearlySales();
         
         $data = array(
-            //'daily_sales' => SaleResource::collection($daily_sales),
+            'daily_sales' => $daily_sales,
+            'monthly_sales' => $monthly_sales,
+            'yearly_sales' => $yearly_sales,
             'sales' => SaleResource::collection($sales),
             'expenses' => ExpenseResource::collection($expenses),
             'business' => BusinessResource::collection($business)
         );
 
-        $test = Sale::sum('amount');
         return $data;
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function list()
+    {
+        return view('sales.index');
     }
 
     /**
@@ -45,7 +58,7 @@ class SaleController extends Controller
      */
     public function create()
     {
-        //
+        return view('sales.create');
     }
 
     /**
@@ -57,7 +70,7 @@ class SaleController extends Controller
     public function store(Request $request)
     {
         //
-        $sale = $request->isMethod('put') ? Sale::findOrFail ($request->sale_id->sale_id) : new Sale;
+        $sale = $request->isMethod('put') ? Sale::findOrFail ($request->sale_id) : new Sale;
 
         $sale->id = $request->input('sale_id');
         $sale->business_id = $request->input('business_id');
@@ -85,8 +98,18 @@ class SaleController extends Controller
     public function businessSales($id)
     {
         $sales = Sale::businessSales($id)->get();
+        $daily_sales = Sale::businessDailySales($id)->get();
+        $monthly_sales = Sale::businessMonthlySales($id)->get();
+        $yearly_sales = Sale::businessYearlySales($id)->get();
         
-        return SaleResource::collection($sales);
+        $response = array(
+            'sales' => SaleResource::collection($sales),
+            'yearly' => $yearly_sales,
+            'monthly' => $monthly_sales,
+            'daily' => $daily_sales,
+        );
+        // return SaleResource::collection($sales);
+        return $response;
     }
 
     /**
@@ -126,5 +149,12 @@ class SaleController extends Controller
         {
             return new SaleResource($sale);
         }        
+    }
+    
+    public function dailySales()
+    {
+        $daily_sales = Sale::dailySales();
+        
+        return $daily_sales;
     }
 }

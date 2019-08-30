@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Business;
+use App\Http\Resources\Business as BusinessResource;
 
 class BusinessController extends Controller
 {
@@ -13,7 +15,14 @@ class BusinessController extends Controller
      */
     public function index()
     {
-        //
+        return view('business.index');
+    }
+
+    public function list()
+    {
+        $business = Business::business()->get();
+
+        return BusinessResource::collection($business);
     }
 
     /**
@@ -34,7 +43,16 @@ class BusinessController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $business = $request->isMethod('put') ? Business::findOrFail ($request->business_id) : new Business;
+
+        $business->id = $request->input('business_id');
+        $business->name = $request->input('name');
+        $business->description = $request->input('description');
+
+        if($business->save()) 
+        {
+            return new BusinessResource($business);
+        }
     }
 
     /**
@@ -79,6 +97,11 @@ class BusinessController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $business = Business::findOrFail($id);
+
+        if($business->delete())
+        {
+            return new BusinessResource($business);
+        }        
     }
 }

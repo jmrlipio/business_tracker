@@ -25,8 +25,13 @@ Route::get('sales', 'SaleController@index');
 // List single sales
 Route::get('sales/{id}', 'SaleController@show');
 
+// List daily sales
+Route::get('sales-daily', 'SaleController@dailySales');
+
 // Create new sale
-Route::post('sale', 'SaleController@store');
+Route::post('sales', 'SaleController@store');
+
+Route::put('sales', 'SaleController@store');
 
 // Sync device
 Route::post('sync', 'SyncController@store');
@@ -36,4 +41,13 @@ Route::delete('sale/{id}', 'SaleController@destroy');
 
 
 // List business sales
+Route::get('business', 'BusinessController@list');
 Route::get('business/{id}/sales', 'SaleController@businessSales');
+
+// Create new business
+Route::post('business', 'BusinessController@store');
+
+Route::put('business', 'BusinessController@store');
+
+// Delete sale
+Route::delete('business/{id}', 'BusinessController@destroy');
