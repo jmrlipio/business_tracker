@@ -2103,6 +2103,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2168,6 +2170,9 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (err) {
         return console.log(err);
       });
+    },
+    isNumber: function isNumber(event) {
+      if (!/\d/.test(event.key) && event.key !== '.') return event.preventDefault();
     }
   }
 });
@@ -70282,6 +70287,9 @@ var render = function() {
                   attrs: { required: "", type: "text", placeholder: "Amount" },
                   domProps: { value: _vm.sale.amount },
                   on: {
+                    keypress: function($event) {
+                      return _vm.isNumber($event)
+                    },
                     input: function($event) {
                       if ($event.target.composing) {
                         return

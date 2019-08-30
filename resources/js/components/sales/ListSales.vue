@@ -17,7 +17,9 @@
                         </div>
                         <div class="form-group">
                             <input required type="text" class="form-control" 
-                            placeholder="Amount" v-model="sale.amount">
+                            placeholder="Amount" 
+                            v-model="sale.amount"
+                            @keypress="isNumber($event)">
                         </div>
                         
                         <button type="submit" class="btn btn-light btn-block">Save</button>
@@ -111,6 +113,9 @@ export default {
             })
             .catch(err => console.log(err));
         },
+        isNumber(event){
+            if(!/\d/.test(event.key) && event.key !== '.') return event.preventDefault();
+        }
     },
 }
 </script>
