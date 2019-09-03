@@ -166,6 +166,9 @@ export default {
                 this.setData(arr_data); //add input variables for day labels, month and amount 
             })
         },
+        fetchBusinessSales(){
+
+        },
         setData(data){
           //daily || monthly || yearly
           this.drawChart(data);
@@ -210,41 +213,4 @@ export default {
       }
     }
 }
-
-
-// $(function () {
-
-//     'use strict';
-//     var line = new Morris.Line({
-//     element          : 'line-chart',
-//     resize           : true,
-//     data             : [
-//         { y: '2019-01', item1: 2666 },
-//         { y: '2019-02', item1: 2778 },
-//         { y: '2019-03', item1: 4912 },
-//         { y: '2019-04', item1: 3767 },
-//         { y: '2019-05', item1: 6810 },
-//         { y: '2019-06', item1: 5670 },
-//         { y: '2019-07', item1: 4820 },
-//         { y: '2019-08', item1: 15073 },
-//         { y: '2019-09', item1: 10687 },
-//         { y: '2019-10', item1: 8432 },
-//         { y: '2019-11', item1: 9678 },
-//         { y: '2019-12', item1: 15980}
-//     ],
-//     xkey             : 'y',
-//     ykeys            : ['item1'],
-//     labels           : ['Item 1'],
-//     lineColors       : ['#efefef'],
-//     lineWidth        : 2,
-//     hideHover        : 'auto',
-//     gridTextColor    : '#fff',
-//     gridStrokeWidth  : 0.4,
-//     pointSize        : 4,
-//     pointStrokeColors: ['#efefef'],
-//     gridLineColor    : '#efefef',
-//     gridTextFamily   : 'Open Sans',
-//     gridTextSize     : 10
-//     });
-// });
 </script>

@@ -70228,12 +70228,12 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.selectedBusiness,
-                        expression: "selectedBusiness"
+                        value: _vm.sale.business_id,
+                        expression: "sale.business_id"
                       }
                     ],
                     staticClass: "custom-select form-control mb-1",
-                    attrs: { required: "" },
+                    attrs: { required: true },
                     on: {
                       change: function($event) {
                         var $$selectedVal = Array.prototype.filter
@@ -70244,9 +70244,13 @@ var render = function() {
                             var val = "_value" in o ? o._value : o.value
                             return val
                           })
-                        _vm.selectedBusiness = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
+                        _vm.$set(
+                          _vm.sale,
+                          "business_id",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
                       }
                     }
                   },
@@ -70257,7 +70261,7 @@ var render = function() {
                         key: business.id,
                         domProps: {
                           value: business.id,
-                          selected: _vm.selectedBusiness === business.id
+                          selected: business.id == "1"
                         }
                       },
                       [
@@ -70284,7 +70288,11 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { required: "", type: "text", placeholder: "Amount" },
+                  attrs: {
+                    required: true,
+                    type: "text",
+                    placeholder: "Amount"
+                  },
                   domProps: { value: _vm.sale.amount },
                   on: {
                     keypress: function($event) {

@@ -23,6 +23,7 @@ class Sale extends Model
         SUM(amount) as total_sales'))
             ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at), DAY(created_at)'))
             ->orderBy(DB::raw('YEAR(created_at), MONTH(created_at), DAY(created_at)'))
+            ->whereMonth('created_at', Carbon::now()->format('m'))
             ->get();
     }
 
@@ -50,6 +51,7 @@ class Sale extends Model
         SUM(amount) as total_sales'))
             ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at), DAY(created_at)'))
             ->orderBy(DB::raw('YEAR(created_at), MONTH(created_at), DAY(created_at)'))
+            ->whereMonth('created_at', Carbon::now()->format('m'))
             ->where('business_id',$id);
     }
 

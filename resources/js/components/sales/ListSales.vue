@@ -6,17 +6,17 @@
                     <form @submit.prevent="addSales">
                         <label>Select Business</label>
                         <div class="form-group">
-                            <select required class="custom-select form-control mb-1" v-model="selectedBusiness">
+                            <select :required="true" class="custom-select form-control mb-1" v-model="sale.business_id">
                                 <option v-for="business in businesses" 
                                     v-bind:key="business.id"
                                     v-bind:value="business.id"
-                                    :selected="selectedBusiness === business.id">
+                                    :selected="business == '1'">
                                         {{ business.name }}  
                                 </option>   
                             </select>
                         </div>
                         <div class="form-group">
-                            <input required type="text" class="form-control" 
+                            <input :required="true" type="text" class="form-control" 
                             placeholder="Amount" 
                             v-model="sale.amount"
                             @keypress="isNumber($event)">
