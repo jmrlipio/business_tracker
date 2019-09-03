@@ -104,9 +104,9 @@ class SaleController extends Controller
         
         $response = array(
             'sales' => SaleResource::collection($sales),
-            'yearly' => $yearly_sales,
-            'monthly' => $monthly_sales,
-            'daily' => $daily_sales,
+            'monthly_sales' => $monthly_sales,
+            'yearly_sales' => $yearly_sales,
+            'daily_sales' => $daily_sales,
         );
         // return SaleResource::collection($sales);
         return $response;

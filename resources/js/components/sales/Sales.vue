@@ -79,6 +79,16 @@
                     </button>
                     </div>
                 </div>
+                <div class="form-group mb-2 mt-2">
+                    <select :required="true" @change="getSalesByBusiness($event)" class="custom-select form-control mb-1" v-model="sale.business_id">
+                        <option v-for="business in businesses" 
+                            v-bind:key="business.id"
+                            v-bind:value="business.id"
+                            :selected="business == '1'">
+                                {{ business.name }}  
+                        </option>   
+                    </select>
+                </div>
                 <div class="box-body border-radius-none">
                     <!-- <div class="chart" id="line-chart" style="height: 250px;"></div> -->
                     <canvas ref="myChart" width="500" height="100"></canvas>
@@ -113,11 +123,18 @@ export default {
                 quantity: '',
                 amount: ''                
             },
+            businesses: [],
+            business:{
+                id: '',
+                name: '',
+                description: ''          
+            },
             daily_sales: [],
             monthly_sales: [],
             yearly_sales: [],
             Days: [],
             Prices: [],
+            Year: moment().year(),
         }
     },
     name: 'monthly-sales-chart',
@@ -136,6 +153,7 @@ export default {
             .then(res => {
                 this.sales = res.sales;
                 this.expenses = res.expenses;
+                this.businesses = res.business;
                 this.daily_sales = res.daily_sales;
                 this.monthly_sales = res.monthly_sales;
                 this.yearly_sales = res.yearly_sales;
@@ -166,8 +184,32 @@ export default {
                 this.setData(arr_data); //add input variables for day labels, month and amount 
             })
         },
-        fetchBusinessSales(){
+        fetchSalesByBusiness(id){
+            fetch('/api/business/'+ id + '/sales')
+            .then(res => res.json())
+            .then(res => {
+              this.sales = res.sales;
+              this.daily_sales = res.daily_sales;
+              let arr_data = [];
+              let days = [];
+              let prices = [];
 
+              this.daily_sales.forEach(element => {
+                days.push(element.sales_day);
+                prices.push(element.total_sales);
+              });
+              
+              arr_data = {
+                  'prices' : prices, 
+                  'length' : days, 
+                  'year' : this.Year
+              };
+              //set onload as daily sales for current month
+              this.setData(arr_data); //add input variables for day labels, month and amount 
+          })
+        },
+        getSalesByBusiness(event){
+          this.fetchSalesByBusiness(event.target.value);
         },
         setData(data){
           //daily || monthly || yearly

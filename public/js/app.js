@@ -2283,6 +2283,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2304,11 +2314,18 @@ __webpack_require__.r(__webpack_exports__);
         quantity: '',
         amount: ''
       },
+      businesses: [],
+      business: {
+        id: '',
+        name: '',
+        description: ''
+      },
       daily_sales: [],
       monthly_sales: [],
       yearly_sales: [],
       Days: [],
-      Prices: []
+      Prices: [],
+      Year: moment__WEBPACK_IMPORTED_MODULE_0___default()().year()
     };
   },
   name: 'monthly-sales-chart',
@@ -2325,6 +2342,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (res) {
         _this.sales = res.sales;
         _this.expenses = res.expenses;
+        _this.businesses = res.business;
         _this.daily_sales = res.daily_sales;
         _this.monthly_sales = res.monthly_sales;
         _this.yearly_sales = res.yearly_sales;
@@ -2352,6 +2370,36 @@ __webpack_require__.r(__webpack_exports__);
         _this.setData(arr_data); //add input variables for day labels, month and amount 
 
       });
+    },
+    fetchSalesByBusiness: function fetchSalesByBusiness(id) {
+      var _this2 = this;
+
+      fetch('/api/business/' + id + '/sales').then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this2.sales = res.sales;
+        _this2.daily_sales = res.daily_sales;
+        var arr_data = [];
+        var days = [];
+        var prices = [];
+
+        _this2.daily_sales.forEach(function (element) {
+          days.push(element.sales_day);
+          prices.push(element.total_sales);
+        });
+
+        arr_data = {
+          'prices': prices,
+          'length': days,
+          'year': _this2.Year
+        }; //set onload as daily sales for current month
+
+        _this2.setData(arr_data); //add input variables for day labels, month and amount 
+
+      });
+    },
+    getSalesByBusiness: function getSalesByBusiness(event) {
+      this.fetchSalesByBusiness(event.target.value);
     },
     setData: function setData(data) {
       //daily || monthly || yearly
@@ -2397,41 +2445,7 @@ __webpack_require__.r(__webpack_exports__);
       this._totalProfit = this.totalRevenue - this.totalExpense;
       return this._totalProfit.toLocaleString();
     }
-  } // $(function () {
-  //     'use strict';
-  //     var line = new Morris.Line({
-  //     element          : 'line-chart',
-  //     resize           : true,
-  //     data             : [
-  //         { y: '2019-01', item1: 2666 },
-  //         { y: '2019-02', item1: 2778 },
-  //         { y: '2019-03', item1: 4912 },
-  //         { y: '2019-04', item1: 3767 },
-  //         { y: '2019-05', item1: 6810 },
-  //         { y: '2019-06', item1: 5670 },
-  //         { y: '2019-07', item1: 4820 },
-  //         { y: '2019-08', item1: 15073 },
-  //         { y: '2019-09', item1: 10687 },
-  //         { y: '2019-10', item1: 8432 },
-  //         { y: '2019-11', item1: 9678 },
-  //         { y: '2019-12', item1: 15980}
-  //     ],
-  //     xkey             : 'y',
-  //     ykeys            : ['item1'],
-  //     labels           : ['Item 1'],
-  //     lineColors       : ['#efefef'],
-  //     lineWidth        : 2,
-  //     hideHover        : 'auto',
-  //     gridTextColor    : '#fff',
-  //     gridStrokeWidth  : 0.4,
-  //     pointSize        : 4,
-  //     pointStrokeColors: ['#efefef'],
-  //     gridLineColor    : '#efefef',
-  //     gridTextFamily   : 'Open Sans',
-  //     gridTextSize     : 10
-  //     });
-  // });
-
+  }
 });
 
 /***/ }),
@@ -70261,7 +70275,7 @@ var render = function() {
                         key: business.id,
                         domProps: {
                           value: business.id,
-                          selected: business.id == "1"
+                          selected: business == "1"
                         }
                       },
                       [
@@ -70410,6 +70424,65 @@ var render = function() {
       _c("div", { staticClass: "col-lg-12" }, [
         _c("div", { staticClass: "box box-solid bg-teal-gradient" }, [
           _vm._m(8),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group mb-2 mt-2" }, [
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.sale.business_id,
+                    expression: "sale.business_id"
+                  }
+                ],
+                staticClass: "custom-select form-control mb-1",
+                attrs: { required: true },
+                on: {
+                  change: [
+                    function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.sale,
+                        "business_id",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    },
+                    function($event) {
+                      return _vm.getSalesByBusiness($event)
+                    }
+                  ]
+                }
+              },
+              _vm._l(_vm.businesses, function(business) {
+                return _c(
+                  "option",
+                  {
+                    key: business.id,
+                    domProps: { value: business.id, selected: business == "1" }
+                  },
+                  [
+                    _vm._v(
+                      "\r\n                                " +
+                        _vm._s(business.name) +
+                        "  \r\n                        "
+                    )
+                  ]
+                )
+              }),
+              0
+            )
+          ]),
           _vm._v(" "),
           _c("div", { staticClass: "box-body border-radius-none" }, [
             _c("canvas", {
