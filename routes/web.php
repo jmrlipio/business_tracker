@@ -26,3 +26,4 @@ Route::get('/sales', 'SaleController@list');
 
 
 Route::get('/business', 'BusinessController@index');
+Route::get('/expense', 'ExpenseController@index');

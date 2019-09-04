@@ -26,6 +26,8 @@ Vue.component('create_sales', require('./components/sales/CreateSales.vue').defa
 Vue.component('list_sales', require('./components/sales/ListSales.vue').default);
 
 Vue.component('list_business', require('./components/business/ListBusiness.vue').default);
+Vue.component('create_expense', require('./components/expense/CreateExpense.vue').default);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

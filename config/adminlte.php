@@ -120,6 +120,12 @@ return [
             'icon'        => 'file',
             'label_color' => 'success',
         ],
+        [
+            'text'        => 'Expense',
+            'url'         => 'expense',
+            'icon'        => 'file',
+            'label_color' => 'success',
+        ],
         'SALES',
         [
             'text' => 'Blog',

@@ -44,6 +44,9 @@ Route::delete('sale/{id}', 'SaleController@destroy');
 Route::get('business', 'BusinessController@list');
 Route::get('business/{id}/sales', 'SaleController@businessSales');
 
+// List expenses
+Route::post('expenses', 'ExpenseController@store');
+
 // Create new business
 Route::post('business', 'BusinessController@store');
 

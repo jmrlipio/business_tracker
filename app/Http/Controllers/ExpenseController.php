@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Expense;
+use App\Http\Resources\Expense as ExpenseResource;
 
 class ExpenseController extends Controller
 {
@@ -13,7 +15,7 @@ class ExpenseController extends Controller
      */
     public function index()
     {
-        //
+        return view('expenses.index');
     }
 
     /**
@@ -34,7 +36,18 @@ class ExpenseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $expense = $request->isMethod('put') ? Expense::findOrFail ($request->expense_id) : new Expense;
+
+        $expense->id = $request->input('expense_id');
+        $expense->quantity = $request->input('quantity');
+        $expense->business_id = $request->input('business_id');
+        $expense->description = $request->input('description');
+        $expense->amount = $request->input('amount');
+
+        if($expense->save()) 
+        {
+            return new ExpenseResource($expense);
+        }
     }
 
     /**
