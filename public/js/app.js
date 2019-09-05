@@ -2401,6 +2401,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2444,6 +2447,8 @@ __webpack_require__.r(__webpack_exports__);
         _this.daily_sales = res.daily_sales;
         _this.monthly_sales = res.monthly_sales;
         _this.yearly_sales = res.yearly_sales;
+        _this.Amount = [];
+        _this.Days = [];
 
         _this.daily_sales.forEach(function (element) {
           _this.Days.push(element.sales_day);
@@ -2471,6 +2476,10 @@ __webpack_require__.r(__webpack_exports__);
       fetch('/api/business/' + id + '/sales').then(function (res) {
         return res.json();
       }).then(function (res) {
+        if (id == '0') {
+          _this2.fetchSales();
+        }
+
         _this2.sales = res.sales;
         _this2.daily_sales = res.daily_sales;
         _this2.expenses = res.expenses;
@@ -2494,7 +2503,11 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     getSalesByBusiness: function getSalesByBusiness(event) {
-      this.fetchSalesByBusiness(event.target.value);
+      if (event.target.value == '') {
+        this.fetchSales();
+      } else {
+        this.fetchSalesByBusiness(event.target.value);
+      }
     },
     drawChart: function drawChart(arr_data) {
       new Chart(this.$refs.myChart, {
@@ -70713,71 +70726,73 @@ var render = function() {
           _vm._m(8),
           _vm._v(" "),
           _c("div", { staticClass: "box-body border-radius-none" }, [
-            _c(
-              "select",
-              {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.sale.business_id,
-                    expression: "sale.business_id"
-                  }
-                ],
-                staticClass: "custom-select form-control mb-1",
-                attrs: { required: true },
-                on: {
-                  change: [
-                    function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.sale,
-                        "business_id",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    },
-                    function($event) {
-                      return _vm.getSalesByBusiness($event)
-                    }
-                  ]
-                }
-              },
-              [
-                _c("option", { attrs: { value: "" } }, [
-                  _vm._v("---Choose Business---")
-                ]),
-                _vm._v(" "),
-                _vm._l(_vm.businesses, function(business) {
-                  return _c(
-                    "option",
+            _c("div", { staticClass: "col-md-3" }, [
+              _c(
+                "select",
+                {
+                  directives: [
                     {
-                      key: business.id,
-                      domProps: {
-                        value: business.id,
-                        selected: business == "1"
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.sale.business_id,
+                      expression: "sale.business_id"
+                    }
+                  ],
+                  staticClass: "custom-select form-control mb-1",
+                  attrs: { required: true },
+                  on: {
+                    change: [
+                      function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.sale,
+                          "business_id",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      },
+                      function($event) {
+                        return _vm.getSalesByBusiness($event)
                       }
-                    },
-                    [
-                      _vm._v(
-                        "\r\n                                " +
-                          _vm._s(business.name) +
-                          "  \r\n                        "
-                      )
                     ]
-                  )
-                })
-              ],
-              2
-            )
+                  }
+                },
+                [
+                  _c("option", { attrs: { value: "" } }, [
+                    _vm._v("All Business Sales")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.businesses, function(business) {
+                    return _c(
+                      "option",
+                      {
+                        key: business.id,
+                        domProps: {
+                          value: business.id,
+                          selected: business == "1"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\r\n                                " +
+                            _vm._s(business.name) +
+                            "  \r\n                        "
+                        )
+                      ]
+                    )
+                  })
+                ],
+                2
+              )
+            ])
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "box-body border-radius-none" }, [

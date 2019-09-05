@@ -79,9 +79,11 @@
                     </button>
                     </div>
                 </div>
+
                 <div class="box-body border-radius-none">
+                  <div class="col-md-3">
                     <select :required="true" @change="getSalesByBusiness($event)" class="custom-select form-control mb-1" v-model="sale.business_id">
-                        <option value="">---Choose Business---</option>
+                        <option value="">All Business Sales</option>
                         <option v-for="business in businesses" 
                             v-bind:key="business.id"
                             v-bind:value="business.id"
@@ -89,6 +91,7 @@
                                 {{ business.name }}  
                         </option>   
                     </select>
+                  </div>
                 </div>
                 <div class="box-body border-radius-none">
                     <!-- <div class="chart" id="line-chart" style="height: 250px;"></div> -->
@@ -148,6 +151,8 @@ export default {
                 this.daily_sales = res.daily_sales;
                 this.monthly_sales = res.monthly_sales;
                 this.yearly_sales = res.yearly_sales;
+                this.Amount = [];
+                this.Days = [];
 
                 this.daily_sales.forEach(element => {
                   this.Days.push(element.sales_day);
@@ -175,6 +180,9 @@ export default {
             fetch('/api/business/'+ id + '/sales')
             .then(res => res.json())
             .then(res => {
+              if(id == '0'){
+                this.fetchSales();
+              }
               this.sales = res.sales;
               this.daily_sales = res.daily_sales;
               this.expenses = res.expenses;
@@ -196,7 +204,11 @@ export default {
           })
         },
         getSalesByBusiness(event){
-          this.fetchSalesByBusiness(event.target.value);
+          if(event.target.value == ''){
+            this.fetchSales();
+          } else {
+            this.fetchSalesByBusiness(event.target.value);
+          }          
         },
         drawChart(arr_data){
           new Chart(this.$refs.myChart, {
