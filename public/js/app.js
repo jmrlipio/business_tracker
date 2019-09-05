@@ -2432,7 +2432,8 @@ __webpack_require__.r(__webpack_exports__);
       yearly_sales: [],
       Days: [],
       Prices: [],
-      Year: moment__WEBPACK_IMPORTED_MODULE_0___default()().year()
+      CurrentDate: moment__WEBPACK_IMPORTED_MODULE_0___default()().format('MMMM YYYY'),
+      ChartData: []
     };
   },
   name: 'monthly-sales-chart',
@@ -2456,7 +2457,6 @@ __webpack_require__.r(__webpack_exports__);
         var temp_container = [];
         var days_container = [];
         var arr_data = [];
-        var year = moment__WEBPACK_IMPORTED_MODULE_0___default()().year();
 
         _this.daily_sales.forEach(function (element) {
           _this.Days.push(element.sales_day);
@@ -2468,13 +2468,13 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.yearly_sales.forEach(function (element) {});
 
-        arr_data = {
-          'prices': _this.Prices,
+        _this.ChartData = {
+          'amount': _this.Prices,
           'length': _this.Days,
-          'year': year
+          'date': _this.CurrentDate
         }; //set onload as daily sales for current month
 
-        _this.setData(arr_data); //add input variables for day labels, month and amount 
+        _this.setData(_this.ChartData); //add input variables for day labels, month and amount 
 
       });
     },
@@ -2488,22 +2488,22 @@ __webpack_require__.r(__webpack_exports__);
         _this2.daily_sales = res.daily_sales;
         _this2.expenses = res.expenses;
         var arr_data = [];
-        var days = [];
-        var prices = [];
-        console.log(res);
+        _this2.Prices = [];
+        _this2.Days = [];
 
         _this2.daily_sales.forEach(function (element) {
-          days.push(element.sales_day);
-          prices.push(element.total_sales);
+          _this2.Days.push(element.sales_day);
+
+          _this2.Prices.push(element.total_sales);
         });
 
-        arr_data = {
-          'prices': prices,
-          'length': days,
-          'year': _this2.Year
+        _this2.ChartData = {
+          'amount': _this2.Prices,
+          'length': _this2.Days,
+          'date': _this2.CurrentDate
         }; //set onload as daily sales for current month
 
-        _this2.setData(arr_data); //add input variables for day labels, month and amount 
+        _this2.setData(_this2.ChartData); //add input variables for day labels, month and amount 
 
       });
     },
@@ -2520,8 +2520,8 @@ __webpack_require__.r(__webpack_exports__);
         data: {
           labels: arr_data['length'],
           datasets: [{
-            label: arr_data['year'] + ' Sales',
-            data: arr_data['prices'],
+            label: arr_data['date'] + ' Sales',
+            data: arr_data['amount'],
             lineColors: ['#efefef'],
             lineWidth: 2,
             hideHover: 'auto',
@@ -83429,14 +83429,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!*************************************************!*\
   !*** ./resources/js/components/sales/Sales.vue ***!
   \*************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Sales_vue_vue_type_template_id_209f16a4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Sales.vue?vue&type=template&id=209f16a4& */ "./resources/js/components/sales/Sales.vue?vue&type=template&id=209f16a4&");
 /* harmony import */ var _Sales_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Sales.vue?vue&type=script&lang=js& */ "./resources/js/components/sales/Sales.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Sales_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Sales_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -83466,7 +83467,7 @@ component.options.__file = "resources/js/components/sales/Sales.vue"
 /*!**************************************************************************!*\
   !*** ./resources/js/components/sales/Sales.vue?vue&type=script&lang=js& ***!
   \**************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

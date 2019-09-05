@@ -134,7 +134,8 @@ export default {
             yearly_sales: [],
             Days: [],
             Prices: [],
-            Year: moment().year(),
+            CurrentDate: moment().format('MMMM YYYY'),
+            ChartData: [],
         }
     },
     name: 'monthly-sales-chart',
@@ -160,7 +161,6 @@ export default {
                 let temp_container = [];
                 let days_container = [];
                 let arr_data = [];
-                let year = moment().year();
 
                 this.daily_sales.forEach(element => {
                   this.Days.push(element.sales_day);
@@ -174,14 +174,14 @@ export default {
                 this.yearly_sales.forEach(element => {
                   
                 });
-                
-                arr_data = {
-                   'prices' : this.Prices, 
-                   'length' : this.Days, 
-                   'year' : year
+
+                this.ChartData = {
+                   'amount' : this.Prices, 
+                   'length' : this.Days,
+                   'date': this.CurrentDate
                 };
                 //set onload as daily sales for current month
-                this.setData(arr_data); //add input variables for day labels, month and amount 
+                this.setData(this.ChartData); //add input variables for day labels, month and amount 
             })
         },
         fetchSalesByBusiness(id){
@@ -192,22 +192,21 @@ export default {
               this.daily_sales = res.daily_sales;
               this.expenses = res.expenses;
               let arr_data = [];
-              let days = [];
-              let prices = [];
-              console.log(res)
+              this.Prices = [];
+              this.Days = [];
 
               this.daily_sales.forEach(element => {
-                days.push(element.sales_day);
-                prices.push(element.total_sales);
+                this.Days.push(element.sales_day);
+                this.Prices.push(element.total_sales);
               });
               
-              arr_data = {
-                  'prices' : prices, 
-                  'length' : days, 
-                  'year' : this.Year
+              this.ChartData = {
+                  'amount' : this.Prices, 
+                  'length' : this.Days, 
+                  'date': this.CurrentDate
               };
               //set onload as daily sales for current month
-              this.setData(arr_data); //add input variables for day labels, month and amount 
+              this.setData(this.ChartData); //add input variables for day labels, month and amount 
           })
         },
         getSalesByBusiness(event){
@@ -224,8 +223,8 @@ export default {
               labels: arr_data['length'],
               datasets: [
                 {
-                  label: arr_data['year'] + ' Sales',
-                  data: arr_data['prices'],
+                  label: arr_data['date'] + ' Sales',
+                  data: arr_data['amount'],
                   lineColors       : ['#efefef'],
                   lineWidth        : 2,
                   hideHover        : 'auto',
