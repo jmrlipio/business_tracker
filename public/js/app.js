@@ -2400,6 +2400,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2415,23 +2416,12 @@ __webpack_require__.r(__webpack_exports__);
       _totalExpense: 0,
       _totalProfit: 0,
       expenses: [],
-      expense: {
-        id: '',
-        business_id: '',
-        quantity: '',
-        amount: ''
-      },
       businesses: [],
-      business: {
-        id: '',
-        name: '',
-        description: ''
-      },
       daily_sales: [],
       monthly_sales: [],
       yearly_sales: [],
       Days: [],
-      Prices: [],
+      Amount: [],
       CurrentDate: moment__WEBPACK_IMPORTED_MODULE_0___default()().format('MMMM YYYY'),
       ChartData: []
     };
@@ -2454,14 +2444,11 @@ __webpack_require__.r(__webpack_exports__);
         _this.daily_sales = res.daily_sales;
         _this.monthly_sales = res.monthly_sales;
         _this.yearly_sales = res.yearly_sales;
-        var temp_container = [];
-        var days_container = [];
-        var arr_data = [];
 
         _this.daily_sales.forEach(function (element) {
           _this.Days.push(element.sales_day);
 
-          _this.Prices.push(element.total_sales);
+          _this.Amount.push(element.total_sales);
         });
 
         _this.monthly_sales.forEach(function (element) {});
@@ -2469,12 +2456,12 @@ __webpack_require__.r(__webpack_exports__);
         _this.yearly_sales.forEach(function (element) {});
 
         _this.ChartData = {
-          'amount': _this.Prices,
+          'amount': _this.Amount,
           'length': _this.Days,
           'date': _this.CurrentDate
         }; //set onload as daily sales for current month
 
-        _this.setData(_this.ChartData); //add input variables for day labels, month and amount 
+        _this.drawChart(_this.ChartData); //add input variables for day labels, month and amount 
 
       });
     },
@@ -2487,32 +2474,27 @@ __webpack_require__.r(__webpack_exports__);
         _this2.sales = res.sales;
         _this2.daily_sales = res.daily_sales;
         _this2.expenses = res.expenses;
-        var arr_data = [];
-        _this2.Prices = [];
+        _this2.Amount = [];
         _this2.Days = [];
 
         _this2.daily_sales.forEach(function (element) {
           _this2.Days.push(element.sales_day);
 
-          _this2.Prices.push(element.total_sales);
+          _this2.Amount.push(element.total_sales);
         });
 
         _this2.ChartData = {
-          'amount': _this2.Prices,
+          'amount': _this2.Amount,
           'length': _this2.Days,
           'date': _this2.CurrentDate
         }; //set onload as daily sales for current month
 
-        _this2.setData(_this2.ChartData); //add input variables for day labels, month and amount 
+        _this2.drawChart(_this2.ChartData); //add input variables for day labels, month and amount 
 
       });
     },
     getSalesByBusiness: function getSalesByBusiness(event) {
       this.fetchSalesByBusiness(event.target.value);
-    },
-    setData: function setData(data) {
-      //daily || monthly || yearly
-      this.drawChart(data);
     },
     drawChart: function drawChart(arr_data) {
       new Chart(this.$refs.myChart, {
@@ -2522,17 +2504,19 @@ __webpack_require__.r(__webpack_exports__);
           datasets: [{
             label: arr_data['date'] + ' Sales',
             data: arr_data['amount'],
-            lineColors: ['#efefef'],
-            lineWidth: 2,
-            hideHover: 'auto',
-            gridTextColor: '#fff',
-            gridStrokeWidth: 0.4,
-            pointSize: 4,
-            pointStrokeColors: ['#efefef'],
-            gridLineColor: '#efefef',
-            gridTextFamily: 'Open Sans',
-            gridTextSize: 10
-          }]
+            backgroundColor: ['rgba(57, 204, 204, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'],
+            borderColor: ['rgba(57, 204, 204, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'],
+            borderWidth: 2
+          }],
+          options: {
+            scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero: true
+                }
+              }]
+            }
+          }
         }
       });
     }
@@ -70725,10 +70709,10 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-lg-12" }, [
-        _c("div", { staticClass: "box box-solid bg-teal-gradient" }, [
+        _c("div", { staticClass: "box box-solid" }, [
           _vm._m(8),
           _vm._v(" "),
-          _c("div", { staticClass: "form-group mb-2 mt-2" }, [
+          _c("div", { staticClass: "box-body border-radius-none" }, [
             _c(
               "select",
               {
@@ -70767,23 +70751,32 @@ var render = function() {
                   ]
                 }
               },
-              _vm._l(_vm.businesses, function(business) {
-                return _c(
-                  "option",
-                  {
-                    key: business.id,
-                    domProps: { value: business.id, selected: business == "1" }
-                  },
-                  [
-                    _vm._v(
-                      "\r\n                                " +
-                        _vm._s(business.name) +
-                        "  \r\n                        "
-                    )
-                  ]
-                )
-              }),
-              0
+              [
+                _c("option", { attrs: { value: "" } }, [
+                  _vm._v("---Choose Business---")
+                ]),
+                _vm._v(" "),
+                _vm._l(_vm.businesses, function(business) {
+                  return _c(
+                    "option",
+                    {
+                      key: business.id,
+                      domProps: {
+                        value: business.id,
+                        selected: business == "1"
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\r\n                                " +
+                          _vm._s(business.name) +
+                          "  \r\n                        "
+                      )
+                    ]
+                  )
+                })
+              ],
+              2
             )
           ]),
           _vm._v(" "),
@@ -70871,7 +70864,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "box-header" }, [
+    return _c("div", { staticClass: "box-header bg-teal-gradient" }, [
       _c("i", { staticClass: "fa fa-th" }),
       _vm._v(" "),
       _c("h3", { staticClass: "box-title" }, [_vm._v("Sales Graph")]),
@@ -83429,15 +83422,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!*************************************************!*\
   !*** ./resources/js/components/sales/Sales.vue ***!
   \*************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Sales_vue_vue_type_template_id_209f16a4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Sales.vue?vue&type=template&id=209f16a4& */ "./resources/js/components/sales/Sales.vue?vue&type=template&id=209f16a4&");
 /* harmony import */ var _Sales_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Sales.vue?vue&type=script&lang=js& */ "./resources/js/components/sales/Sales.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Sales_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Sales_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -83467,7 +83459,7 @@ component.options.__file = "resources/js/components/sales/Sales.vue"
 /*!**************************************************************************!*\
   !*** ./resources/js/components/sales/Sales.vue?vue&type=script&lang=js& ***!
   \**************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

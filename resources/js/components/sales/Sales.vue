@@ -66,8 +66,8 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <div class="box box-solid bg-teal-gradient">
-                <div class="box-header">
+            <div class="box box-solid">
+                <div class="box-header bg-teal-gradient">
                     <i class="fa fa-th"></i>
 
                     <h3 class="box-title">Sales Graph</h3>
@@ -79,8 +79,9 @@
                     </button>
                     </div>
                 </div>
-                <div class="form-group mb-2 mt-2">
+                <div class="box-body border-radius-none">
                     <select :required="true" @change="getSalesByBusiness($event)" class="custom-select form-control mb-1" v-model="sale.business_id">
+                        <option value="">---Choose Business---</option>
                         <option v-for="business in businesses" 
                             v-bind:key="business.id"
                             v-bind:value="business.id"
@@ -117,23 +118,12 @@ export default {
             _totalExpense: 0,
             _totalProfit: 0,
             expenses: [],
-            expense:{
-                id: '',
-                business_id: '',
-                quantity: '',
-                amount: ''                
-            },
             businesses: [],
-            business:{
-                id: '',
-                name: '',
-                description: ''          
-            },
             daily_sales: [],
             monthly_sales: [],
             yearly_sales: [],
             Days: [],
-            Prices: [],
+            Amount: [],
             CurrentDate: moment().format('MMMM YYYY'),
             ChartData: [],
         }
@@ -158,13 +148,10 @@ export default {
                 this.daily_sales = res.daily_sales;
                 this.monthly_sales = res.monthly_sales;
                 this.yearly_sales = res.yearly_sales;
-                let temp_container = [];
-                let days_container = [];
-                let arr_data = [];
 
                 this.daily_sales.forEach(element => {
                   this.Days.push(element.sales_day);
-                  this.Prices.push(element.total_sales);
+                  this.Amount.push(element.total_sales);
                 });
 
                 this.monthly_sales.forEach(element => {
@@ -176,12 +163,12 @@ export default {
                 });
 
                 this.ChartData = {
-                   'amount' : this.Prices, 
+                   'amount' : this.Amount, 
                    'length' : this.Days,
                    'date': this.CurrentDate
                 };
                 //set onload as daily sales for current month
-                this.setData(this.ChartData); //add input variables for day labels, month and amount 
+                this.drawChart(this.ChartData); //add input variables for day labels, month and amount 
             })
         },
         fetchSalesByBusiness(id){
@@ -191,30 +178,25 @@ export default {
               this.sales = res.sales;
               this.daily_sales = res.daily_sales;
               this.expenses = res.expenses;
-              let arr_data = [];
-              this.Prices = [];
+              this.Amount = [];
               this.Days = [];
 
               this.daily_sales.forEach(element => {
                 this.Days.push(element.sales_day);
-                this.Prices.push(element.total_sales);
+                this.Amount.push(element.total_sales);
               });
               
               this.ChartData = {
-                  'amount' : this.Prices, 
+                  'amount' : this.Amount, 
                   'length' : this.Days, 
                   'date': this.CurrentDate
               };
               //set onload as daily sales for current month
-              this.setData(this.ChartData); //add input variables for day labels, month and amount 
+              this.drawChart(this.ChartData); //add input variables for day labels, month and amount 
           })
         },
         getSalesByBusiness(event){
           this.fetchSalesByBusiness(event.target.value);
-        },
-        setData(data){
-          //daily || monthly || yearly
-          this.drawChart(data);
         },
         drawChart(arr_data){
           new Chart(this.$refs.myChart, {
@@ -225,18 +207,34 @@ export default {
                 {
                   label: arr_data['date'] + ' Sales',
                   data: arr_data['amount'],
-                  lineColors       : ['#efefef'],
-                  lineWidth        : 2,
-                  hideHover        : 'auto',
-                  gridTextColor    : '#fff',
-                  gridStrokeWidth  : 0.4,
-                  pointSize        : 4,
-                  pointStrokeColors: ['#efefef'],
-                  gridLineColor    : '#efefef',
-                  gridTextFamily   : 'Open Sans',
-                  gridTextSize     : 10
+                  backgroundColor: [
+                      'rgba(57, 204, 204, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(57, 204, 204, 1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 2
                 }
-              ]
+              ],
+              options: {
+                scales: {
+                      yAxes: [{
+                          ticks: {
+                              beginAtZero: true
+                          }
+                      }]
+                  },
+              }
             }
           });
         }
