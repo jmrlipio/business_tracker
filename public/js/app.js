@@ -2486,9 +2486,11 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (res) {
         _this2.sales = res.sales;
         _this2.daily_sales = res.daily_sales;
+        _this2.expenses = res.expenses;
         var arr_data = [];
         var days = [];
         var prices = [];
+        console.log(res);
 
         _this2.daily_sales.forEach(function (element) {
           days.push(element.sales_day);

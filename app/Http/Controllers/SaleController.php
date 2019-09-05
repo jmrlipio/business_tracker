@@ -101,14 +101,16 @@ class SaleController extends Controller
         $daily_sales = Sale::businessDailySales($id)->get();
         $monthly_sales = Sale::businessMonthlySales($id)->get();
         $yearly_sales = Sale::businessYearlySales($id)->get();
+        $expenses = Expense::expensesByBusiness($id)->get();
         
         $response = array(
             'sales' => SaleResource::collection($sales),
             'monthly_sales' => $monthly_sales,
             'yearly_sales' => $yearly_sales,
             'daily_sales' => $daily_sales,
+            'expenses' => ExpenseResource::collection($expenses),
         );
-        // return SaleResource::collection($sales);
+
         return $response;
     }
 

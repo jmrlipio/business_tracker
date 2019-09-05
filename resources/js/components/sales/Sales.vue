@@ -190,9 +190,11 @@ export default {
             .then(res => {
               this.sales = res.sales;
               this.daily_sales = res.daily_sales;
+              this.expenses = res.expenses;
               let arr_data = [];
               let days = [];
               let prices = [];
+              console.log(res)
 
               this.daily_sales.forEach(element => {
                 days.push(element.sales_day);
