@@ -4,7 +4,7 @@
             <div class="col-lg-12 col-xs-6">
                 <label>Select Business</label>
                 <div class="form-check form-check-inline" v-for="business in businesses" v-bind:key="business.id">
-                    <input class="form-check-input" type="radio" v-bind:id="business.id"
+                    <input class="minimal" type="radio" v-bind:id="business.id"
                      @change="getExpenseByBusiness($event)" 
                      v-bind:value="business.id" 
                      v-model="expenses.business_id"> 
@@ -39,6 +39,13 @@ export default {
         this.fetchBusiness();
     },
     methods: {
+        fetchSales(){
+            fetch('/api/expenses/list')
+            .then(res => res.json())
+            .then(res => {
+                this.expenses = res.expenses;
+            })
+        },
         addExpense(){
             fetch('api/expenses', {
                     method: 'post',

@@ -2127,8 +2127,17 @@ __webpack_require__.r(__webpack_exports__);
     this.fetchBusiness();
   },
   methods: {
-    addExpense: function addExpense() {
+    fetchSales: function fetchSales() {
       var _this = this;
+
+      fetch('/api/expenses/list').then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this.expenses = res.expenses;
+      });
+    },
+    addExpense: function addExpense() {
+      var _this2 = this;
 
       fetch('api/expenses', {
         method: 'post',
@@ -2139,32 +2148,32 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (res) {
         return res.json();
       }).then(function (data) {
-        _this.expenses.amount = '';
-        _this.expenses.description = '';
+        _this2.expenses.amount = '';
+        _this2.expenses.description = '';
         alert('Expense Added');
       })["catch"](function (err) {
         return console.log(err);
       });
     },
     fetchExpenseByBusiness: function fetchExpenseByBusiness(id) {
-      var _this2 = this;
+      var _this3 = this;
 
       fetch('/api/expenses/' + id).then(function (res) {
         return res.json();
       }).then(function (res) {
-        _this2.expenses = res.expenses;
+        _this3.expenses = res.expenses;
       });
     },
     getExpenseByBusiness: function getExpenseByBusiness(event) {
       this.fetchExpenseByBusiness(event.target.value);
     },
     fetchBusiness: function fetchBusiness() {
-      var _this3 = this;
+      var _this4 = this;
 
       fetch('/api/business').then(function (res) {
         return res.json();
       }).then(function (res) {
-        _this3.businesses = res.data;
+        _this4.businesses = res.data;
       })["catch"](function (err) {
         return console.log(err);
       });
@@ -70530,7 +70539,7 @@ var render = function() {
                       expression: "expenses.business_id"
                     }
                   ],
-                  staticClass: "form-check-input",
+                  staticClass: "minimal",
                   attrs: { type: "radio", id: business.id },
                   domProps: {
                     value: business.id,
