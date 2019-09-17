@@ -1,11 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'AdminLTE')
 @section('name', 'csrf-token')
-
-@section('content_header')
-    <h1>List Expense</h1>    
-@stop
 
 @section('content')
     <div id="app">

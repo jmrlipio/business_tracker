@@ -2,7 +2,7 @@
     <section class="content">
         <div class="row">
             <div class="col-lg-12 col-xs-6">
-                <h4 class="text-center"> <strong>Total:</strong> ₱{{ totalExpense.toLocaleString() }} </h4>
+                <h2 class="text-center"> Total: ₱{{ totalExpense.toLocaleString() }} </h2>
                 <div class="radio-inline clearfix" v-for="business in businesses" v-bind:key="business.id">
                     <input class="form-check-input" type="radio" v-bind:id="business.id"
                      @click="getExpenseByBusiness($event)" 

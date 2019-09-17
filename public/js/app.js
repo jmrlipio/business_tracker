@@ -70598,9 +70598,10 @@ var render = function() {
         "div",
         { staticClass: "col-lg-12 col-xs-6" },
         [
-          _c("h4", { staticClass: "text-center" }, [
-            _c("strong", [_vm._v("Total:")]),
-            _vm._v(" ₱" + _vm._s(_vm.totalExpense.toLocaleString()) + " ")
+          _c("h2", { staticClass: "text-center" }, [
+            _vm._v(
+              " Total: ₱" + _vm._s(_vm.totalExpense.toLocaleString()) + " "
+            )
           ]),
           _vm._v(" "),
           _vm._l(_vm.businesses, function(business) {

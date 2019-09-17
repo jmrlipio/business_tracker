@@ -35,7 +35,9 @@ class ExpenseController extends Controller
      */
     public function list()
     {
-        $expenses = Expense::businessExpenses()->get();
+        $expenses = Expense::businessExpenses()
+            ->orderBy('created_at', 'DESC')
+            ->paginate(10);
 
         return ExpenseResource::collection($expenses);
     }
