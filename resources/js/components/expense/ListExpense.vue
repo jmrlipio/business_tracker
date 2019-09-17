@@ -129,10 +129,13 @@ export default {
             this.fetchExpenseByBusiness(event.target.value);  
             this.fetchTotalExpenseByBusiness(event.target.value);  
             if(event.target.value === 'all'){
-                let temp = this.temp_expenses;
-                this.expenses = temp;
-                console.log(this.expenses)
-                this.total_expense = this.temp_total_expense;
+                this.fetchExpenses();
+                this.fetchAllExpenses();
+                // let temp = this.temp_expenses;
+                // this.expenses = [];
+                // this.expenses = temp;
+                // console.log(this.expenses)
+                // this.total_expense = this.temp_total_expense;
             }
         },
         fetchBusiness(){

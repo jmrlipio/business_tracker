@@ -2228,10 +2228,12 @@ __webpack_require__.r(__webpack_exports__);
       this.fetchTotalExpenseByBusiness(event.target.value);
 
       if (event.target.value === 'all') {
-        var temp = this.temp_expenses;
-        this.expenses = temp;
-        console.log(this.expenses);
-        this.total_expense = this.temp_total_expense;
+        this.fetchExpenses();
+        this.fetchAllExpenses(); // let temp = this.temp_expenses;
+        // this.expenses = [];
+        // this.expenses = temp;
+        // console.log(this.expenses)
+        // this.total_expense = this.temp_total_expense;
       }
     },
     fetchBusiness: function fetchBusiness() {
