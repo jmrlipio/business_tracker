@@ -2,13 +2,15 @@
     <section class="content">
         <div class="row">
             <div class="col-lg-12 col-xs-6">
-                <div class="radio-inline" v-for="business in businesses" v-bind:key="business.id">
+                <h4 class="text-center"> <strong>Total:</strong> ₱{{ totalExpense.toLocaleString() }} </h4>
+                <div class="radio-inline clearfix" v-for="business in businesses" v-bind:key="business.id">
                     <input class="form-check-input" type="radio" v-bind:id="business.id"
                      @click="getExpenseByBusiness($event)" 
                      v-bind:value="business.id" 
                      v-model="business_id"> 
                      <label v-bind:for="business.id">{{ business.name }} </label>
                 </div>
+
                 <div class="list-group">
                     <div v-for="data in expenses" 
                         v-bind:key="data.id"  
@@ -37,6 +39,7 @@ export default {
             business_id: '',
             businesses: [],
             expenses:[],
+            total_expense: 0,
         }
     },
     created(){
@@ -73,5 +76,11 @@ export default {
             if(!/\d/.test(event.key) && event.key !== '.') return event.preventDefault();
         }
     },
+    computed: {
+      totalExpense(){
+          this.total_expense = this.expenses.reduce((acc, item) => acc + item.amount, 0);
+          return this.total_expense;
+      },
+    }
 }
 </script>

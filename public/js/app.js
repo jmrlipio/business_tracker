@@ -2118,13 +2118,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       business_id: '',
       businesses: [],
-      expenses: []
+      expenses: [],
+      total_expense: 0
     };
   },
   created: function created() {
@@ -2166,6 +2169,14 @@ __webpack_require__.r(__webpack_exports__);
     },
     isNumber: function isNumber(event) {
       if (!/\d/.test(event.key) && event.key !== '.') return event.preventDefault();
+    }
+  },
+  computed: {
+    totalExpense: function totalExpense() {
+      this.total_expense = this.expenses.reduce(function (acc, item) {
+        return acc + item.amount;
+      }, 0);
+      return this.total_expense;
     }
   }
 });
@@ -70587,10 +70598,15 @@ var render = function() {
         "div",
         { staticClass: "col-lg-12 col-xs-6" },
         [
+          _c("h4", { staticClass: "text-center" }, [
+            _c("strong", [_vm._v("Total:")]),
+            _vm._v(" ₱" + _vm._s(_vm.totalExpense.toLocaleString()) + " ")
+          ]),
+          _vm._v(" "),
           _vm._l(_vm.businesses, function(business) {
             return _c(
               "div",
-              { key: business.id, staticClass: "radio-inline" },
+              { key: business.id, staticClass: "radio-inline clearfix" },
               [
                 _c("input", {
                   directives: [
