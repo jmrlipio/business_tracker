@@ -2120,6 +2120,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2127,56 +2155,95 @@ __webpack_require__.r(__webpack_exports__);
       business_id: '',
       businesses: [],
       expenses: [],
-      total_expense: 0
+      total_expense: 0,
+      pagination: {},
+      temp_total_expense: 0,
+      temp_expenses: []
     };
   },
   created: function created() {
     this.fetchBusiness();
     this.fetchExpenses();
+    this.fetchAllExpenses();
   },
   methods: {
-    fetchExpenses: function fetchExpenses() {
+    fetchExpenses: function fetchExpenses(page_url) {
       var _this = this;
 
-      fetch('/api/expenses').then(function (res) {
+      var vm = this;
+      page_url = page_url || '/api/expenses';
+      fetch(page_url).then(function (res) {
         return res.json();
       }).then(function (res) {
         _this.expenses = res.data;
-      });
-    },
-    fetchExpenseByBusiness: function fetchExpenseByBusiness(id) {
-      var _this2 = this;
-
-      fetch('/api/expenses/' + id).then(function (res) {
-        return res.json();
-      }).then(function (res) {
-        _this2.expenses = res.expenses;
-      });
-    },
-    getExpenseByBusiness: function getExpenseByBusiness(event) {
-      this.fetchExpenseByBusiness(event.target.value);
-    },
-    fetchBusiness: function fetchBusiness() {
-      var _this3 = this;
-
-      fetch('/api/business').then(function (res) {
-        return res.json();
-      }).then(function (res) {
-        _this3.businesses = res.data;
+        _this.temp_expenses = res.data;
+        vm.makePagination(res.meta, res.links);
       })["catch"](function (err) {
         return console.log(err);
       });
     },
-    isNumber: function isNumber(event) {
-      if (!/\d/.test(event.key) && event.key !== '.') return event.preventDefault();
-    }
-  },
-  computed: {
-    totalExpense: function totalExpense() {
-      this.total_expense = this.expenses.reduce(function (acc, item) {
-        return acc + item.amount;
-      }, 0);
-      return this.total_expense;
+    fetchAllExpenses: function fetchAllExpenses() {
+      var _this2 = this;
+
+      fetch('/api/expenses-all').then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this2.total_expense = res.expenses;
+        _this2.temp_total_expense = res.expenses;
+      })["catch"](function (err) {
+        return console.log(err);
+      });
+    },
+    makePagination: function makePagination(meta, links) {
+      var pagination = {
+        current_page: meta.current_page,
+        last_page: meta.last_page,
+        next_page_url: links.next,
+        prev_page_url: links.prev
+      };
+      this.pagination = pagination;
+    },
+    fetchExpenseByBusiness: function fetchExpenseByBusiness(id) {
+      var _this3 = this;
+
+      var vm = this;
+      fetch('/api/expenses/' + id).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this3.expenses = res.data;
+        vm.makePagination(res.meta, res.links);
+      });
+    },
+    fetchTotalExpenseByBusiness: function fetchTotalExpenseByBusiness(id) {
+      var _this4 = this;
+
+      fetch('/api/expenses/business/' + id).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this4.total_expense = res;
+      });
+    },
+    getExpenseByBusiness: function getExpenseByBusiness(event) {
+      this.fetchExpenseByBusiness(event.target.value);
+      this.fetchTotalExpenseByBusiness(event.target.value);
+
+      if (event.target.value === 'all') {
+        var temp = this.temp_expenses;
+        this.expenses = temp;
+        console.log(this.expenses);
+        this.total_expense = this.temp_total_expense;
+      }
+    },
+    fetchBusiness: function fetchBusiness() {
+      var _this5 = this;
+
+      fetch('/api/business').then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this5.businesses = res.data;
+      })["catch"](function (err) {
+        return console.log(err);
+      });
     }
   }
 });
@@ -70600,8 +70667,37 @@ var render = function() {
         [
           _c("h2", { staticClass: "text-center" }, [
             _vm._v(
-              " Total: ₱" + _vm._s(_vm.totalExpense.toLocaleString()) + " "
+              " Total: ₱" + _vm._s(_vm.total_expense.toLocaleString()) + " "
             )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "radio-inline clearfix" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.business_id,
+                  expression: "business_id"
+                }
+              ],
+              staticClass: "form-check-input",
+              attrs: { type: "radio", value: "all" },
+              domProps: {
+                checked: true,
+                checked: _vm._q(_vm.business_id, "all")
+              },
+              on: {
+                click: function($event) {
+                  return _vm.getExpenseByBusiness($event)
+                },
+                change: function($event) {
+                  _vm.business_id = "all"
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("label", { attrs: { for: "all" } }, [_vm._v("All")])
           ]),
           _vm._v(" "),
           _vm._l(_vm.businesses, function(business) {
@@ -70640,6 +70736,59 @@ var render = function() {
               ]
             )
           }),
+          _vm._v(" "),
+          _c("nav", { attrs: { "aria-label": "Page navigation" } }, [
+            _c("ul", { staticClass: "pagination" }, [
+              _c(
+                "li",
+                { class: [{ disabled: !_vm.pagination.prev_page_url }] },
+                [
+                  _c(
+                    "a",
+                    {
+                      attrs: { href: "#", "aria-label": "previous" },
+                      on: {
+                        click: function($event) {
+                          return _vm.fetchExpenses(_vm.pagination.prev_page_url)
+                        }
+                      }
+                    },
+                    [_c("span", [_vm._v("Previous")])]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c("li", { staticClass: "disabled" }, [
+                _c("a", { attrs: { href: "#" } }, [
+                  _vm._v(
+                    "Page " +
+                      _vm._s(_vm.pagination.current_page) +
+                      " of " +
+                      _vm._s(_vm.pagination.last_page)
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "li",
+                { class: [{ disabled: !_vm.pagination.next_page_url }] },
+                [
+                  _c(
+                    "a",
+                    {
+                      attrs: { href: "#", "aria-label": "next" },
+                      on: {
+                        click: function($event) {
+                          return _vm.fetchExpenses(_vm.pagination.next_page_url)
+                        }
+                      }
+                    },
+                    [_c("span", [_vm._v("Next")])]
+                  )
+                ]
+              )
+            ])
+          ]),
           _vm._v(" "),
           _c(
             "div",

@@ -72,10 +72,30 @@ class ExpenseController extends Controller
      */
     public function show($id)
     {
-        $expenses = Expense::expensesByBusiness($id)->get();
+        $expenses = Expense::expensesByBusiness($id)
+            ->orderBy('created_at', 'DESC')
+            ->paginate(10);
 
         $response = array(
             'expenses' => ExpenseResource::collection($expenses)
+        );
+
+        return ExpenseResource::collection($expenses);
+    }
+
+    public function getTotalExpenseByBusiness($id)
+    {
+        $expenses = Expense::totalExpensesByBusiness($id);
+
+        return $expenses;
+    }
+
+    public function getTotalExpenses()
+    {
+        $expenses =  Expense::totalExpenses();
+
+        $response = array(
+            'expenses' => $expenses
         );
 
         return $response;

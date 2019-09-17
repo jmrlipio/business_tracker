@@ -22,6 +22,21 @@ class Expense extends Model
             ->where('business_id', $id);
     }
 
+    public function scopeTotalExpensesByBusiness($query, $id)
+    {
+        return $query->whereYear('created_at', Carbon::now()->year)
+            ->whereMonth('created_at', Carbon::now()->format('m'))
+            ->where('business_id', $id)
+            ->sum('amount');
+    }
+
+    public function scopeTotalExpenses($query)
+    {
+        return $query->whereYear('created_at', Carbon::now()->year)
+            ->whereMonth('created_at', Carbon::now()->format('m'))
+            ->sum('amount');
+    }
+
     public function business()
     {
         return $this->belongsTo(Business::class);

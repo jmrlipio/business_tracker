@@ -47,7 +47,9 @@ Route::get('business/{id}/sales', 'SaleController@businessSales');
 // List expenses
 Route::post('expenses', 'ExpenseController@store');
 Route::get('expenses/{id}', 'ExpenseController@show');
+Route::get('expenses/business/{id}', 'ExpenseController@getTotalExpenseByBusiness');
 Route::get('expenses', 'ExpenseController@list');
+Route::get('expenses-all', 'ExpenseController@getTotalExpenses');
 
 // Create new business
 Route::post('business', 'BusinessController@store');
