@@ -2110,40 +2110,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      expense_id: '',
-      edit: false,
       businesses: [],
-      expenses: {
-        id: '',
-        business_id: '',
-        amount: '',
-        quantity: '',
-        description: ''
-      },
-      selectedBusiness: "1"
+      expenses: []
     };
   },
   created: function created() {
     this.fetchBusiness();
+    this.fetchExpenses();
   },
   methods: {
-    addExpense: function addExpense() {
+    fetchExpenses: function fetchExpenses() {
       var _this = this;
 
-      fetch('api/expenses', {
-        method: 'post',
-        body: JSON.stringify(this.expenses),
-        headers: {
-          'content-type': 'application/json'
-        }
-      }).then(function (res) {
+      fetch('/api/expenses').then(function (res) {
         return res.json();
-      }).then(function (data) {
-        _this.expenses.amount = '';
-        _this.expenses.description = '';
-        alert('Expense Added');
-      })["catch"](function (err) {
-        return console.log(err);
+      }).then(function (res) {
+        _this.expenses = res.data;
+        console.log(_this.expenses);
       });
     },
     fetchExpenseByBusiness: function fetchExpenseByBusiness(id) {

@@ -29,6 +29,18 @@ class ExpenseController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function list()
+    {
+        $expenses = Expense::businessExpenses()->get();
+
+        return ExpenseResource::collection($expenses);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

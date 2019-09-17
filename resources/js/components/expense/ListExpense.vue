@@ -22,38 +22,22 @@ import moment from 'moment';
 export default {
     data(){
         return{
-            expense_id: '',
-            edit: false  ,
             businesses: [],
-            expenses:{
-                id: '',
-                business_id: '',
-                amount: '',
-                quantity: '',
-                description: '',               
-            },
-            selectedBusiness: "1"
+            expenses:[],
         }
     },
     created(){
         this.fetchBusiness();
+        this.fetchExpenses();
     },
-    methods: {
-        addExpense(){
-            fetch('api/expenses', {
-                    method: 'post',
-                    body: JSON.stringify(this.expenses),
-                    headers: {
-                        'content-type': 'application/json'
-                    }
-                })
-                .then(res => res.json())
-                .then(data => {
-                    this.expenses.amount = '';
-                    this.expenses.description = '';
-                    alert('Expense Added');
-                })
-                .catch(err => console.log(err))
+    methods: {        
+        fetchExpenses(){
+            fetch('/api/expenses')
+            .then(res => res.json())
+            .then(res => {
+                this.expenses = res.data;
+                console.log(this.expenses)
+            })
         },
         fetchExpenseByBusiness(id){
             fetch('/api/expenses/'+ id)
