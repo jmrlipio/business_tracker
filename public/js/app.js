@@ -2106,15 +2106,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -70597,87 +70588,55 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("section", { staticClass: "content" }, [
     _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-lg-12 col-xs-6" }, [
-        _c("div", { staticClass: "col-lg-6 col-xs-3" }, [
-          _c(
-            "form",
-            {
-              on: {
-                submit: function($event) {
-                  $event.preventDefault()
-                  return _vm.addExpense($event)
-                }
-              }
-            },
-            [
-              _c("label", [_vm._v("Select Business")]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.expenses.business_id,
-                        expression: "expenses.business_id"
-                      }
-                    ],
-                    staticClass: "custom-select form-control mb-1",
-                    attrs: { required: true },
-                    on: {
-                      change: [
-                        function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.expenses,
-                            "business_id",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        },
-                        function($event) {
-                          return _vm.getExpenseByBusiness($event)
-                        }
-                      ]
+      _c(
+        "div",
+        { staticClass: "col-lg-12 col-xs-6" },
+        [
+          _c("label", [_vm._v("Select Business")]),
+          _vm._v(" "),
+          _vm._l(_vm.businesses, function(business) {
+            return _c(
+              "div",
+              { key: business.id, staticClass: "form-check form-check-inline" },
+              [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.expenses.business_id,
+                      expression: "expenses.business_id"
                     }
+                  ],
+                  staticClass: "form-check-input",
+                  attrs: { type: "radio", id: business.id },
+                  domProps: {
+                    value: business.id,
+                    checked: _vm._q(_vm.expenses.business_id, business.id)
                   },
-                  _vm._l(_vm.businesses, function(business) {
-                    return _c(
-                      "option",
-                      {
-                        key: business.id,
-                        domProps: {
-                          value: business.id,
-                          selected: business == "1"
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "\n                                    " +
-                            _vm._s(business.name) +
-                            "  \n                            "
+                  on: {
+                    change: [
+                      function($event) {
+                        return _vm.$set(
+                          _vm.expenses,
+                          "business_id",
+                          business.id
                         )
-                      ]
-                    )
-                  }),
-                  0
-                )
-              ])
-            ]
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-lg-6 col-xs-3" }, [
+                      },
+                      function($event) {
+                        return _vm.getExpenseByBusiness($event)
+                      }
+                    ]
+                  }
+                }),
+                _vm._v(" "),
+                _c("label", { attrs: { for: business.id } }, [
+                  _vm._v(_vm._s(business.name) + " ")
+                ])
+              ]
+            )
+          }),
+          _vm._v(" "),
           _c(
             "ul",
             { staticClass: "list-group" },
@@ -70690,8 +70649,9 @@ var render = function() {
             }),
             0
           )
-        ])
-      ])
+        ],
+        2
+      )
     ])
   ])
 }
