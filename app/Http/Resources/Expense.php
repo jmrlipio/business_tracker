@@ -20,6 +20,7 @@ class Expense extends JsonResource
             'business_id' => $this->business_id,
             'quantity' => $this->quantity,
             'amount' => $this->amount,
+            'description' => $this->description,
             'created_at' => $this->created_at
         ];
     }

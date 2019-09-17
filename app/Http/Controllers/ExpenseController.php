@@ -58,7 +58,13 @@ class ExpenseController extends Controller
      */
     public function show($id)
     {
-        //
+        $expenses = Expense::expensesByBusiness($id)->get();
+
+        $response = array(
+            'expenses' => ExpenseResource::collection($expenses)
+        );
+
+        return $response;
     }
 
     /**

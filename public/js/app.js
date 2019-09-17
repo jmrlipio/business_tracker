@@ -2015,6 +2015,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2022,7 +2027,7 @@ __webpack_require__.r(__webpack_exports__);
       expense_id: '',
       edit: false,
       businesses: [],
-      expense: {
+      expenses: {
         id: '',
         business_id: '',
         amount: '',
@@ -2037,28 +2042,43 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     addExpense: function addExpense() {
+      var _this = this;
+
       fetch('api/expenses', {
         method: 'post',
-        body: JSON.stringify(this.expense),
+        body: JSON.stringify(this.expenses),
         headers: {
           'content-type': 'application/json'
         }
       }).then(function (res) {
         return res.json();
       }).then(function (data) {
+        _this.expenses.amount = '';
+        _this.expenses.description = '';
         alert('Expense Added');
       })["catch"](function (err) {
         return console.log(err);
       });
     },
+    fetchExpense: function fetchExpense(id) {
+      var _this2 = this;
+
+      fetch('/api/expenses/' + id).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this2.expenses = res.expenses;
+      });
+    },
+    getExpenseByBusiness: function getExpenseByBusiness(event) {
+      this.fetchExpense(event.target.value);
+    },
     fetchBusiness: function fetchBusiness() {
-      var _this = this;
+      var _this3 = this;
 
       fetch('/api/business').then(function (res) {
         return res.json();
       }).then(function (res) {
-        _this.businesses = res.data;
-        console.log(res);
+        _this3.businesses = res.data;
       })["catch"](function (err) {
         return console.log(err);
       });
@@ -70311,30 +70331,35 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.expense.business_id,
-                        expression: "expense.business_id"
+                        value: _vm.expenses.business_id,
+                        expression: "expenses.business_id"
                       }
                     ],
                     staticClass: "custom-select form-control mb-1",
                     attrs: { required: true },
                     on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.$set(
-                          _vm.expense,
-                          "business_id",
-                          $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        )
-                      }
+                      change: [
+                        function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.expenses,
+                            "business_id",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        },
+                        function($event) {
+                          return _vm.getExpenseByBusiness($event)
+                        }
+                      ]
                     }
                   },
                   _vm._l(_vm.businesses, function(business) {
@@ -70366,8 +70391,8 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.expense.quantity,
-                      expression: "expense.quantity"
+                      value: _vm.expenses.quantity,
+                      expression: "expenses.quantity"
                     }
                   ],
                   staticClass: "form-control",
@@ -70376,13 +70401,13 @@ var render = function() {
                     type: "number",
                     placeholder: "Quantity"
                   },
-                  domProps: { value: _vm.expense.quantity },
+                  domProps: { value: _vm.expenses.quantity },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.$set(_vm.expense, "quantity", $event.target.value)
+                      _vm.$set(_vm.expenses, "quantity", $event.target.value)
                     }
                   }
                 })
@@ -70394,8 +70419,8 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.expense.amount,
-                      expression: "expense.amount"
+                      value: _vm.expenses.amount,
+                      expression: "expenses.amount"
                     }
                   ],
                   staticClass: "form-control",
@@ -70404,7 +70429,7 @@ var render = function() {
                     type: "text",
                     placeholder: "Amount"
                   },
-                  domProps: { value: _vm.expense.amount },
+                  domProps: { value: _vm.expenses.amount },
                   on: {
                     keypress: function($event) {
                       return _vm.isNumber($event)
@@ -70413,7 +70438,7 @@ var render = function() {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.$set(_vm.expense, "amount", $event.target.value)
+                      _vm.$set(_vm.expenses, "amount", $event.target.value)
                     }
                   }
                 })
@@ -70425,19 +70450,19 @@ var render = function() {
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.expense.description,
-                      expression: "expense.description"
+                      value: _vm.expenses.description,
+                      expression: "expenses.description"
                     }
                   ],
                   staticClass: "form-control",
                   attrs: { type: "text", placeholder: "Expense description" },
-                  domProps: { value: _vm.expense.description },
+                  domProps: { value: _vm.expenses.description },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.$set(_vm.expense, "description", $event.target.value)
+                      _vm.$set(_vm.expenses, "description", $event.target.value)
                     }
                   }
                 })
@@ -70452,6 +70477,21 @@ var render = function() {
                 [_vm._v("Save")]
               )
             ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-lg-6 col-xs-3" }, [
+          _c(
+            "ul",
+            { staticClass: "list-group" },
+            _vm._l(_vm.expenses, function(data) {
+              return _c(
+                "li",
+                { key: data.id, staticClass: "list-group-item" },
+                [_vm._v(_vm._s(data.amount) + " - " + _vm._s(data.description))]
+              )
+            }),
+            0
           )
         ])
       ])
