@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'AdminLTE')
+<!-- @section('title', 'AdminLTE')  FOR NAMING PAGE TITLE INDIVIDUALLY-->
 @section('name', 'csrf-token')
 
 @section('content_header')

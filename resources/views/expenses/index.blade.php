@@ -1,6 +1,5 @@
 @extends('adminlte::page')
 
-@section('title', 'AdminLTE')
 @section('name', 'csrf-token')
 
 @section('content_header')
