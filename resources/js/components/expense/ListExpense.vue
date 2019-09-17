@@ -2,26 +2,17 @@
     <section class="content">
         <div class="row">
             <div class="col-lg-12 col-xs-6">
-                <div class="col-lg-6 col-xs-3">
-                    <form @submit.prevent="addExpense">
-                        <label>Select Business</label>
-                        <div class="form-group">
-                            <select :required="true" @change="getExpenseByBusiness($event)" class="custom-select form-control mb-1" v-model="expenses.business_id">
-                                <option v-for="business in businesses" 
-                                    v-bind:key="business.id"
-                                    v-bind:value="business.id"
-                                    :selected="business == '1'">
-                                        {{ business.name }}  
-                                </option>   
-                            </select>
-                        </div>
-                    </form>
+                <label>Select Business</label>
+                <div class="form-check form-check-inline" v-for="business in businesses" v-bind:key="business.id">
+                    <input class="form-check-input" type="radio" v-bind:id="business.id"
+                     @change="getExpenseByBusiness($event)" 
+                     v-bind:value="business.id" 
+                     v-model="expenses.business_id"> 
+                     <label v-bind:for="business.id">{{ business.name }} </label>
                 </div>
-               <div class="col-lg-6 col-xs-3">
-                   <ul class="list-group">
-                        <li v-for="data in expenses" v-bind:key="data.id"  class="list-group-item">{{data.amount}} - {{data.description}}</li>
-                    </ul>
-               </div>
+                <ul class="list-group">
+                    <li v-for="data in expenses" v-bind:key="data.id"  class="list-group-item">{{data.amount}} - {{data.description}}</li>
+                </ul>
             </div>
         </div>
     </section>

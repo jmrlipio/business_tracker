@@ -26,6 +26,6 @@ Route::get('/sales', 'SaleController@list');
 
 
 Route::get('/business', 'BusinessController@index');
-Route::get('/expenses/create', 'ExpenseController@create');
 
+Route::get('/expenses/create', 'ExpenseController@create');
 Route::get('/expenses', 'ExpenseController@index');
