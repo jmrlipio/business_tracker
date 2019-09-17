@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 2',
+    'title' => 'North Pine Enterprises',
 
     'title_prefix' => '',
 
@@ -30,7 +30,7 @@ return [
     |
     */
 
-    'logo' => '<b>Admin</b>LTE',
+    'logo' => '<b>NP</b>ENTERPRISES',
 
     'logo_mini' => '<b>A</b>LT',
 
@@ -120,9 +120,16 @@ return [
             'icon'        => 'file',
             'label_color' => 'success',
         ],
+        'EXPENSES',
         [
-            'text'        => 'Expense',
-            'url'         => 'expense',
+            'text'        => 'List',
+            'url'         => 'expenses',
+            'icon'        => 'file',
+            'label_color' => 'success',
+        ],
+        [
+            'text'        => 'Create',
+            'url'         => 'expenses/create',
             'icon'        => 'file',
             'label_color' => 'success',
         ],

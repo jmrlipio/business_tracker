@@ -27,6 +27,7 @@ Vue.component('list_sales', require('./components/sales/ListSales.vue').default)
 
 Vue.component('list_business', require('./components/business/ListBusiness.vue').default);
 Vue.component('create_expense', require('./components/expense/CreateExpense.vue').default);
+Vue.component('list_expense', require('./components/expense/ListExpense.vue').default);
 
 
 /**

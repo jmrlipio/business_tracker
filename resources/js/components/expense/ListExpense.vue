@@ -6,7 +6,7 @@
                     <form @submit.prevent="addExpense">
                         <label>Select Business</label>
                         <div class="form-group">
-                            <select :required="true" class="custom-select form-control mb-1" v-model="expenses.business_id">
+                            <select :required="true" @change="getExpenseByBusiness($event)" class="custom-select form-control mb-1" v-model="expenses.business_id">
                                 <option v-for="business in businesses" 
                                     v-bind:key="business.id"
                                     v-bind:value="business.id"
@@ -15,24 +15,13 @@
                                 </option>   
                             </select>
                         </div>
-                        <div class="form-group">
-                            <input :required="true" type="number" class="form-control" 
-                            placeholder="Quantity" v-model="expenses.quantity">
-                        </div>
-                        <div class="form-group">
-                            <input :required="true" type="text" class="form-control" 
-                            placeholder="Amount" v-model="expenses.amount"
-                            @keypress="isNumber($event)">
-                        </div>
-                        <div class="form-group">
-                            <textarea type="text" class="form-control" 
-                            placeholder="Expense description" v-model="expenses.description">
-                            </textarea>
-                        </div>                
-                        
-                        <button type="submit" class="btn btn-light btn-block">Save</button>
                     </form>
                 </div>
+               <div class="col-lg-6 col-xs-3">
+                   <ul class="list-group">
+                        <li v-for="data in expenses" v-bind:key="data.id"  class="list-group-item">{{data.amount}} - {{data.description}}</li>
+                    </ul>
+               </div>
             </div>
         </div>
     </section>
@@ -75,8 +64,15 @@ export default {
                 })
                 .catch(err => console.log(err))
         },
+        fetchExpenseByBusiness(id){
+            fetch('/api/expenses/'+ id)
+                .then(res => res.json())
+                .then(res => {
+                this.expenses = res.expenses;
+            })
+        },
         getExpenseByBusiness(event){
-            this.fetchExpense(event.target.value);  
+            this.fetchExpenseByBusiness(event.target.value);  
         },
         fetchBusiness(){
             fetch('/api/business')
