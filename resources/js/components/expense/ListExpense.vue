@@ -2,17 +2,29 @@
     <section class="content">
         <div class="row">
             <div class="col-lg-12 col-xs-6">
-                <label>Select Business</label>
-                <div class="form-check form-check-inline" v-for="business in businesses" v-bind:key="business.id">
+                <div class="radio-inline" v-for="business in businesses" v-bind:key="business.id">
                     <input class="form-check-input" type="radio" v-bind:id="business.id"
-                     @change="getExpenseByBusiness($event)" 
+                     @click="getExpenseByBusiness($event)" 
                      v-bind:value="business.id" 
-                     v-model="expenses.business_id"> 
+                     v-model="business_id"> 
                      <label v-bind:for="business.id">{{ business.name }} </label>
                 </div>
-                <ul class="list-group">
-                    <li v-for="data in expenses" v-bind:key="data.id"  class="list-group-item">{{data.amount}} - {{data.description}}</li>
-                </ul>
+                <div class="list-group">
+                    <div v-for="data in expenses" 
+                        v-bind:key="data.id"  
+                        class="list-group-item clearfix">                        
+                           ‎₱ {{data.amount}} : {{data.description}}                        
+                        <div class="pull-right">
+                            <span>
+                            <button class="btn btn-warning btn-xs">Edit</button>
+                            <button class="btn btn-danger btn-xs">Delete</button>
+                            </span>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                
             </div>
         </div>
     </section>
@@ -22,6 +34,7 @@ import moment from 'moment';
 export default {
     data(){
         return{
+            business_id: '',
             businesses: [],
             expenses:[],
         }
@@ -36,7 +49,6 @@ export default {
             .then(res => res.json())
             .then(res => {
                 this.expenses = res.data;
-                console.log(this.expenses)
             })
         },
         fetchExpenseByBusiness(id){

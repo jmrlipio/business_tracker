@@ -2106,10 +2106,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      business_id: '',
       businesses: [],
       expenses: []
     };
@@ -2126,7 +2139,6 @@ __webpack_require__.r(__webpack_exports__);
         return res.json();
       }).then(function (res) {
         _this.expenses = res.data;
-        console.log(_this.expenses);
       });
     },
     fetchExpenseByBusiness: function fetchExpenseByBusiness(id) {
@@ -70575,41 +70587,33 @@ var render = function() {
         "div",
         { staticClass: "col-lg-12 col-xs-6" },
         [
-          _c("label", [_vm._v("Select Business")]),
-          _vm._v(" "),
           _vm._l(_vm.businesses, function(business) {
             return _c(
               "div",
-              { key: business.id, staticClass: "form-check form-check-inline" },
+              { key: business.id, staticClass: "radio-inline" },
               [
                 _c("input", {
                   directives: [
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.expenses.business_id,
-                      expression: "expenses.business_id"
+                      value: _vm.business_id,
+                      expression: "business_id"
                     }
                   ],
                   staticClass: "form-check-input",
                   attrs: { type: "radio", id: business.id },
                   domProps: {
                     value: business.id,
-                    checked: _vm._q(_vm.expenses.business_id, business.id)
+                    checked: _vm._q(_vm.business_id, business.id)
                   },
                   on: {
-                    change: [
-                      function($event) {
-                        return _vm.$set(
-                          _vm.expenses,
-                          "business_id",
-                          business.id
-                        )
-                      },
-                      function($event) {
-                        return _vm.getExpenseByBusiness($event)
-                      }
-                    ]
+                    click: function($event) {
+                      return _vm.getExpenseByBusiness($event)
+                    },
+                    change: function($event) {
+                      _vm.business_id = business.id
+                    }
                   }
                 }),
                 _vm._v(" "),
@@ -70621,13 +70625,22 @@ var render = function() {
           }),
           _vm._v(" "),
           _c(
-            "ul",
+            "div",
             { staticClass: "list-group" },
             _vm._l(_vm.expenses, function(data) {
               return _c(
-                "li",
-                { key: data.id, staticClass: "list-group-item" },
-                [_vm._v(_vm._s(data.amount) + " - " + _vm._s(data.description))]
+                "div",
+                { key: data.id, staticClass: "list-group-item clearfix" },
+                [
+                  _vm._v(
+                    "                        \n                       ‎₱ " +
+                      _vm._s(data.amount) +
+                      " : " +
+                      _vm._s(data.description) +
+                      "                        \n                    "
+                  ),
+                  _vm._m(0, true)
+                ]
               )
             }),
             0
@@ -70638,7 +70651,24 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "pull-right" }, [
+      _c("span", [
+        _c("button", { staticClass: "btn btn-warning btn-xs" }, [
+          _vm._v("Edit")
+        ]),
+        _vm._v(" "),
+        _c("button", { staticClass: "btn btn-danger btn-xs" }, [
+          _vm._v("Delete")
+        ])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
