@@ -2038,7 +2038,7 @@ __webpack_require__.r(__webpack_exports__);
     addExpense: function addExpense() {
       var _this = this;
 
-      fetch('api/expenses', {
+      fetch('/api/expenses', {
         method: 'post',
         body: JSON.stringify(this.expenses),
         headers: {
@@ -70400,7 +70400,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "col-lg-12 col-xs-6" },
+        { staticClass: "col-lg-12 col-xs-12" },
         _vm._l(_vm.businesses, function(business) {
           return _c(
             "div",
@@ -70665,7 +70665,7 @@ var render = function() {
     _c("div", { staticClass: "row" }, [
       _c(
         "div",
-        { staticClass: "col-lg-12 col-xs-6" },
+        { staticClass: "col-lg-12 col-xs-12" },
         [
           _c("h2", { staticClass: "text-center" }, [
             _vm._v(

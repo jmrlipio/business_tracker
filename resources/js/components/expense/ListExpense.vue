@@ -1,7 +1,7 @@
 <template>
     <section class="content">
         <div class="row">
-            <div class="col-lg-12 col-xs-6">
+            <div class="col-lg-12 col-xs-12">
                 <h2 class="text-center"> Total: ₱{{ total_expense.toLocaleString() }} </h2>
                  <div class="radio-inline clearfix">
                     <input @click="getExpenseByBusiness($event)" v-model="business_id" 

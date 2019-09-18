@@ -60,7 +60,7 @@ export default {
     },
     methods: {
         addExpense(){
-            fetch('api/expenses', {
+            fetch('/api/expenses', {
                     method: 'post',
                     body: JSON.stringify(this.expenses),
                     headers: {
